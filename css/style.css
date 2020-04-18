@@ -165,7 +165,7 @@ html::-webkit-scrollbar-thumb:hover {
   background-color: #ddd;
 }
 body {
-  font-size: 13pt;
+  font-size: 11pt;
   font-weight: normal;
   line-height: 2em;
   background-color: #fff;
@@ -1065,7 +1065,7 @@ header label {
 .post-toc {
   position: fixed;
   top: 95px;
-  right: 1em;
+  right: -1em;
   width: 17rem;
   font-size: 0.75rem;
 }
