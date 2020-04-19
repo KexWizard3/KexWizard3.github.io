@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>Redhat7.6 About HTTPd | 个人主页</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Redhat7.6 About HTTPd</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 19, 2020&nbsp;&nbsp;13:39:02</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Redhat-Linux/">Redhat Linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="使用Apache服务部署静态网站"><a href="#使用Apache服务部署静态网站" class="headerlink" title="使用Apache服务部署静态网站"></a>使用Apache服务部署静态网站</h2><ul>
+<li>网站服务程序</li>
+<li>配置服务文件参数</li>
+<li>SELinux安全子系统</li>
+<li>个人用户主页功能</li>
+</ul>
+<h3 id="网站服务程序"><a href="#网站服务程序" class="headerlink" title="网站服务程序"></a>网站服务程序</h3><blockquote>
+<p>能够提供web网络服务的程序有IIS、NGINX、Apache等</p>
+</blockquote>
+<h4 id="第一步：把光盘设备中的系统镜像挂载到-media-cdrom-目录"><a href="#第一步：把光盘设备中的系统镜像挂载到-media-cdrom-目录" class="headerlink" title="第一步：把光盘设备中的系统镜像挂载到/media/cdrom 目录"></a>第一步：把光盘设备中的系统镜像挂载到/media/cdrom 目录</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># mkdir -p /media/cdrom</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># mount /dev/cdrom /media/cdrom</span></span><br><span class="line">mount: /dev/sr0 is <span class="built_in">write</span>-<span class="keyword">protected</span>, mounting <span class="built_in">read</span>-only</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：使用-Vim-文本编辑器创建-Yum-仓库的配置文件"><a href="#第二步：使用-Vim-文本编辑器创建-Yum-仓库的配置文件" class="headerlink" title="第二步：使用 Vim 文本编辑器创建 Yum 仓库的配置文件"></a>第二步：使用 Vim 文本编辑器创建 Yum 仓库的配置文件</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># vim /etc/yum.repos.d/rhel7.repo</span></span><br><span class="line">[rhel7]</span><br><span class="line">name=rhel7</span><br><span class="line">baseurl=file:<span class="comment">///media/cdrom</span></span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第三步：动手安装-Apache-服务程序"><a href="#第三步：动手安装-Apache-服务程序" class="headerlink" title="第三步：动手安装 Apache 服务程序"></a>第三步：动手安装 Apache 服务程序</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># yum install httpd</span></span><br><span class="line">Loaded plugins: langpacks, product-id, subscription-manager</span><br><span class="line">………………省略部分输出信息………………</span><br><span class="line">Is <span class="keyword">this</span> ok [y/d/N]: y</span><br><span class="line">………………省略部分输出信息………………</span><br><span class="line">Complete!</span><br></pre></td></tr></table></figure>
+
+<h4 id="第四步：启用-httpd-服务程序并将其加入到开机启动项中"><a href="#第四步：启用-httpd-服务程序并将其加入到开机启动项中" class="headerlink" title="第四步：启用 httpd 服务程序并将其加入到开机启动项中"></a>第四步：启用 httpd 服务程序并将其加入到开机启动项中</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># systemctl start httpd</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># systemctl enable httpd</span></span><br><span class="line">ln -s '/usr/lib/systemd/system/httpd.service' '/etc/systemd/system/multi-user.</span><br><span class="line">target.wants/httpd.service<span class="number">'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第五步：此时本地的调试地址-127-0-0-1"><a href="#第五步：此时本地的调试地址-127-0-0-1" class="headerlink" title="第五步：此时本地的调试地址 127.0.0.1"></a>第五步：此时本地的调试地址 127.0.0.1</h4><h3 id="配置服务文件参数"><a href="#配置服务文件参数" class="headerlink" title="配置服务文件参数"></a>配置服务文件参数</h3><table>
+<thead>
+<tr>
+<th align="left">配置文件的名称</th>
+<th align="left">存放的位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">服务目录</td>
+<td align="left">/etc/httpd</td>
+</tr>
+<tr>
+<td align="left">主配置文件</td>
+<td align="left">/etc/httpd/conf/httpd.conf</td>
+</tr>
+<tr>
+<td align="left">网站数据目录</td>
+<td align="left">/var/www/html</td>
+</tr>
+<tr>
+<td align="left">访问日志</td>
+<td align="left">/var/log/httpd/access_log</td>
+</tr>
+<tr>
+<td align="left">错误日志</td>
+<td align="left">/var/log/httpd/error_log</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>配置 httpd 服务程序时最常用的参数以及用途描述</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ServerRoot</td>
+<td>服务目录</td>
+</tr>
+<tr>
+<td>ServerAdmin</td>
+<td>管理员邮箱</td>
+</tr>
+<tr>
+<td>User</td>
+<td>运行服务的用户</td>
+</tr>
+<tr>
+<td>Group</td>
+<td>运行服务的用户组</td>
+</tr>
+<tr>
+<td>ServerName</td>
+<td>网站服务器的域名</td>
+</tr>
+<tr>
+<td>DocumentRoot</td>
+<td>网站数据目录</td>
+</tr>
+<tr>
+<td>Directory</td>
+<td>网站数据目录的权限</td>
+</tr>
+<tr>
+<td>Listen</td>
+<td>监听的IP地址与端口号</td>
+</tr>
+<tr>
+<td>DirectoryIndex</td>
+<td>默认的索引页页面</td>
+</tr>
+<tr>
+<td>ErrorLog</td>
+<td>错误日志文件</td>
+</tr>
+<tr>
+<td>CustomLog</td>
+<td>访问日志文件</td>
+</tr>
+<tr>
+<td>Timeout</td>
+<td>网页超时时间 默认300s</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>更改主页内容：</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//文件默认存放目录 /var/www/html</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># echo <span class="meta-string">"Welcome To LinuxProbe.Com"</span> &gt; /var/www/html/index.html</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="更改网站保存目录"><a href="#更改网站保存目录" class="headerlink" title="更改网站保存目录"></a>更改网站保存目录</h4><h4 id="第一步：建立网站数据的保存目录，并创建首页"><a href="#第一步：建立网站数据的保存目录，并创建首页" class="headerlink" title="第一步：建立网站数据的保存目录，并创建首页"></a>第一步：建立网站数据的保存目录，并创建首页</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># mkdir /home/wwwroot</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># echo <span class="meta-string">"The New Web Directory"</span> &gt; /home/wwwroot/index.html</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：打开-httpd-服务程序的主配置文件"><a href="#第二步：打开-httpd-服务程序的主配置文件" class="headerlink" title="第二步：打开 httpd 服务程序的主配置文件"></a>第二步：打开 httpd 服务程序的主配置文件</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># vim /etc/httpd/conf/httpd.conf</span></span><br><span class="line">………………省略部分输出信息………………</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># DocumentRoot: The directoryout of which you will serve your</span><br><span class="line"><span class="meta"># documents. By default, all requests are taken from this directory, but</span></span><br><span class="line"><span class="meta"># symbolic links and aliases may be used to point to other locations.</span></span><br><span class="line">#</span><br><span class="line">DocumentRoot <span class="string">"/home/wwwroot"</span></span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># Relax access to content within /var/www.</span><br><span class="line">#</span><br><span class="line">&lt;Directory <span class="string">"/home/wwwroot"</span>&gt;</span><br><span class="line">AllowOverride None</span><br><span class="line"># Allow <span class="built_in">open</span> access:</span><br><span class="line">Require all granted</span><br><span class="line">&lt;/Directory&gt;</span><br><span class="line">………………省略部分输出信息………………</span><br><span class="line">[root@linuxprobe ~]#</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三步：重启httpd服务"><a href="#第三步：重启httpd服务" class="headerlink" title="第三步：重启httpd服务"></a>第三步：重启httpd服务</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="SELinux-安全子系统"><a href="#SELinux-安全子系统" class="headerlink" title="SELinux 安全子系统"></a>SELinux 安全子系统</h3><blockquote>
+<p>SELinux(Security-Enhanced Linux)约束各个服务进程</p>
+<p>服务有三种配置模式：</p>
+<p><strong>enforcing</strong>：强制启用安全策略模式，将拦截服务的不合法请求</p>
+<p><strong>permissive</strong>：遇到服务越权访问时，只发出警告而不强制拦截</p>
+<p><strong>disabled</strong>：对于越权的行为不警告也不拦截</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//SELinux控制文件目录</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># vim /etc/selinux/config </span></span><br><span class="line"><span class="comment">//获取当前服务运行模式</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># getenforce </span></span><br><span class="line"><span class="comment">//临时禁用当前运行模式	（0位禁用、1位启用）</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># setenforce 0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="semanage命令"><a href="#semanage命令" class="headerlink" title="semanage命令"></a>semanage命令</h4><blockquote>
+<p>用于管理SELinux的策略组</p>
+<blockquote>
+<p>-l 参数用于查询</p>
+<p>-a 参数用于添加</p>
+<p>-m 参数用于修改</p>
+<p>-d 参数用于删除</p>
+</blockquote>
+</blockquote>
+<p>*向新的网站数据目录添加一条SELinux安全上下文，让这个目录及里面所有文件能够被httpd服务程序所访问</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># semanage fcontext -a -t httpd_sys_content_t /home/wwwroot</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># semanage fcontext -a -t httpd_sys_content_t /home/wwwroot<span class="comment">/*</span></span></span><br></pre></td></tr></table></figure>
+
+<p><em>使用*</em>restorecon 命令**将设置好的SELinux安全上下文立即生效</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># restorecon -Rv /home/wwwroot/</span></span><br><span class="line">restorecon reset /<span class="built_in">home</span>/wwwroot context unconfined_u:object_r:<span class="keyword">home_root_t</span>:s0-&gt;</span><br><span class="line">unconfined_u:object_r:<span class="keyword">httpd_sys_content_t</span>:s0</span><br><span class="line">restorecon reset /<span class="built_in">home</span>/wwwroot/index.html context unconfined_u:object_r:home_root_</span><br><span class="line">t:s0-&gt;unconfined_u:object_r:<span class="keyword">httpd_sys_content_t</span>:s0</span><br></pre></td></tr></table></figure>
+
+<h3 id="个人用户主页功能"><a href="#个人用户主页功能" class="headerlink" title="个人用户主页功能"></a>个人用户主页功能</h3><h4 id="第一步：开启个人用户主页功能"><a href="#第一步：开启个人用户主页功能" class="headerlink" title="第一步：开启个人用户主页功能"></a>第一步：开启个人用户主页功能</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># vim /etc/httpd/conf.d/userdir.conf</span></span><br><span class="line">#</span><br><span class="line"># UserDir: The name of the directory that is appended onto a user<span class="number">'</span>s <span class="built_in">home</span></span><br><span class="line"><span class="meta"># directory <span class="meta-keyword">if</span> a ~user request is received.</span></span><br><span class="line">#</span><br><span class="line"># The path to the end user account 'public_html' directory must be</span><br><span class="line"><span class="meta"># accessible to the webserver userid. This usually means that ~userid</span></span><br><span class="line"><span class="meta"># must have permissions of 711, ~userid/public_html must have permissions</span></span><br><span class="line"><span class="meta"># of 755, and documents contained therein must be world-readable.</span></span><br><span class="line"># Otherwise, the client will only receive a <span class="string">"403 Forbidden"</span> message.</span><br><span class="line">#</span><br><span class="line">&lt;IfModule mod_userdir.c&gt;</span><br><span class="line">#</span><br><span class="line"># UserDir is disabled by <span class="keyword">default</span> since it can confirm the presence</span><br><span class="line"><span class="meta"># of a username on the system (depending on home directory</span></span><br><span class="line"><span class="meta"># permissions).</span></span><br><span class="line">#</span><br><span class="line"># UserDir disabled				<span class="comment">//在此行添加#</span></span><br><span class="line">#</span><br><span class="line"># To enable requests to /~user/ to serve the user<span class="number">'</span>s public_html</span><br><span class="line"><span class="meta"># directory, remove the <span class="meta-string">"UserDir disabled"</span> <span class="meta-keyword">line</span> above, and uncomment</span></span><br><span class="line"><span class="meta"># the following <span class="meta-keyword">line</span> instead:</span></span><br><span class="line">#</span><br><span class="line">UserDir public_html				<span class="comment">//去掉此行的#</span></span><br><span class="line">&lt;/IfModule&gt;</span><br><span class="line">#</span><br><span class="line"># Control access to UserDir directories. The following is an example</span><br><span class="line"><span class="meta"># for a site where these directories are restricted to read-only.</span></span><br><span class="line">#</span><br><span class="line">&lt;Directory <span class="string">"/home/*/public_html"</span>&gt;</span><br><span class="line">AllowOverride FileInfo AuthConfig Limit Indexes</span><br><span class="line">Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec</span><br><span class="line">Require method GET POST OPTIONS</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：在home目录中建立用于保存网站数据的目录及首页文件并修改权限"><a href="#第二步：在home目录中建立用于保存网站数据的目录及首页文件并修改权限" class="headerlink" title="第二步：在home目录中建立用于保存网站数据的目录及首页文件并修改权限"></a>第二步：在home目录中建立用于保存网站数据的目录及首页文件并修改权限</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe <span class="built_in">home</span>]<span class="meta"># su - linuxprobe</span></span><br><span class="line">Last login: Fri May <span class="number">22</span> <span class="number">13</span>:<span class="number">17</span>:<span class="number">37</span> CST <span class="number">2017</span> on :<span class="number">0</span></span><br><span class="line">[linuxprobe@linuxprobe ~]$ <span class="built_in">mkdir</span> public_html</span><br><span class="line">[linuxprobe@linuxprobe ~]$ echo <span class="string">"This is linuxprobe's website"</span> &gt; public_html/</span><br><span class="line">index.html</span><br><span class="line">[linuxprobe@linuxprobe ~]$ chmod -Rf <span class="number">755</span> /<span class="built_in">home</span>/linuxprobe</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三步：重新启动httpd服务程序（网址-用户名）"><a href="#第三步：重新启动httpd服务程序（网址-用户名）" class="headerlink" title="第三步：重新启动httpd服务程序（网址/~用户名）"></a>第三步：重新启动httpd服务程序（网址/~用户名）</h4><h4 id="第四步：更改SELinux配置"><a href="#第四步：更改SELinux配置" class="headerlink" title="第四步：更改SELinux配置"></a>第四步：更改SELinux配置</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]<span class="meta"># setsebool -P httpd_enable_homedirs=on</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>扩展：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加网站可访问的用户</span></span><br><span class="line"><span class="comment">//生成密码数据库</span></span><br><span class="line">[root@linuxprobe ~]<span class="meta"># htpasswd -c /etc/httpd/passwd linuxprobe</span></span><br><span class="line">New password:此处输入用于网页验证的密码</span><br><span class="line">Re-type <span class="keyword">new</span> password:再输入一遍进行确认</span><br><span class="line">Adding password <span class="keyword">for</span> user linuxprobe</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight re"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">[<span class="identifier">root</span>@<span class="identifier">linuxprobe</span> ~]</span># vim /etc/httpd/conf.d/userdir.conf</span><br><span class="line">#</span><br><span class="line"># Control access <span class="keyword">to</span> UserDir directories. The following is an example</span><br><span class="line"># for a site where these directories are restricted <span class="keyword">to</span> read-only.</span><br><span class="line">#</span><br><span class="line">&lt;Directory <span class="string">"/home/*/public_html"</span>&gt;</span><br><span class="line">AllowOverride all</span><br><span class="line">#刚刚生成出来的密码验证文件保存路径</span><br><span class="line">authuserfile <span class="string">"/etc/httpd/passwd"</span></span><br><span class="line">#当用户尝试访问个人用户网站时的提示信息</span><br><span class="line">authname <span class="string">"My privately website"</span></span><br><span class="line">authtype basic</span><br><span class="line">#用户进行账户密码登录时需要验证的用户名称</span><br><span class="line">require user linuxprobe</span><br><span class="line">&lt;/Directory&gt;</span><br><span class="line"><span class="literal">[<span class="identifier">root</span>@<span class="identifier">linuxprobe</span> ~]</span># systemctl restart httpd</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/HTTPd/"># HTTPd</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/04/16/Redhat-7-6-About-VsFTPd/">Redhat 7.6 About VsFTPd</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
