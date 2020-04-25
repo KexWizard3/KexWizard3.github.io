@@ -204,7 +204,7 @@
 <li>ARP地址解析协议</li>
 <li>简单介绍几种协议</li>
 <li>TCP三次握手四次挥手</li>
-<li>在浏览器输入<a href="http://www.baidu.com后执行的全部过程" target="_blank" rel="noopener">www.baidu.com后执行的全部过程</a></li>
+<li>在浏览器输入 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 后执行的全部过程</li>
 <li>TCP和UDP的区别</li>
 <li>TCP对应的协议和UDP对应的协议</li>
 <li>DNS域名系统，简单描述其工作原理</li>
@@ -215,13 +215,13 @@
 <h4 id="封装过程"><a href="#封装过程" class="headerlink" title="封装过程"></a>封装过程</h4><ul>
 <li><p>应用层            上层数据</p>
 </li>
-<li><p>传输层            TCP→上层数据→数据段或消息</p>
+<li><p>传输层            TCP → 上层数据 → 数据段或消息</p>
 </li>
-<li><p>网络层            IP头→TCP+上层数据→数据包</p>
+<li><p>网络层            IP头 → TCP + 上层数据 → 数据包</p>
 </li>
-<li><p>数据链路层    MAC头→IP头+TCP+上层数据+FCS→数据帧</p>
+<li><p>数据链路层    MAC头 → IP头 + TCP + 上层数据 + FCS → 数据帧</p>
 </li>
-<li><p>物理层            0101110101001000010→比特流</p>
+<li><p>物理层            0101110101001000010 → 比特流</p>
 </li>
 </ul>
 <h4 id="每层协议如下"><a href="#每层协议如下" class="headerlink" title="每层协议如下"></a>每层协议如下</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">物理层：RJ45、CLOCK、IEEE802<span class="number">.3</span>   （中继器，集线器，网关）</span><br><span class="line"></span><br><span class="line">数据链路：PPP、FR、HDLC、VLAN、MAC  （网桥，交换机）</span><br><span class="line"></span><br><span class="line">网络层：IP、ICMP、ARP、RARP、OSPF、IPX、RIP、IGRP、 （路由器）</span><br><span class="line"></span><br><span class="line">传输层：TCP、UDP、SPX</span><br><span class="line"></span><br><span class="line">会话层：NFS、SQL、NETBIOS、RPC</span><br><span class="line"></span><br><span class="line">表示层：JPEG、MPEG、ASII</span><br><span class="line"></span><br><span class="line">应用层：FTP、DNS、Telnet、SMTP、HTTP、WWW、NFS</span><br></pre></td></tr></table></figure>
@@ -359,7 +359,7 @@
 <p>因为两端的数据并不是同时发送完，所以两端谁发送完数据都需要自己告诉对方一次，并且对方确认一次。</p>
 </li>
 </ul>
-<h3 id="在浏览器中输入www-baidu-com后执行的全部过程"><a href="#在浏览器中输入www-baidu-com后执行的全部过程" class="headerlink" title="在浏览器中输入www.baidu.com后执行的全部过程"></a><strong>在浏览器中输入<a href="http://www.baidu.com后执行的全部过程" target="_blank" rel="noopener">www.baidu.com后执行的全部过程</a></strong></h3><p>1、客户端浏览器通过DNS解析到<a href="http://www.baidu.com的IP地址220.181.27.48，通过这个IP地址找到客户端到服务器的路径。客户端浏览器发起一个HTTP会话到220.161.27.48，然后通过TCP进行封装数据包，输入到网络层。" target="_blank" rel="noopener">www.baidu.com的IP地址220.181.27.48，通过这个IP地址找到客户端到服务器的路径。客户端浏览器发起一个HTTP会话到220.161.27.48，然后通过TCP进行封装数据包，输入到网络层。</a></p>
+<h3 id="在浏览器中输入www-baidu-com-后执行的全部过程"><a href="#在浏览器中输入www-baidu-com-后执行的全部过程" class="headerlink" title="在浏览器中输入www.baidu.com 后执行的全部过程"></a><strong>在浏览器中输入<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 后执行的全部过程</strong></h3><p>1、客户端浏览器通过DNS解析到 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的IP地址220.181.27.48，通过这个IP地址找到客户端到服务器的路径。客户端浏览器发起一个HTTP会话到220.161.27.48，然后通过TCP进行封装数据包，输入到网络层。</p>
 <p> 2、在客户端的<strong>传输层(添加TCP头)</strong>，把HTTP会话请求分成报文段，添加源和目的端口，如服务器使用80端口监听客户端的请求，客户端由系统随机选择一个端口如5000，与服务器进行交换，服务器把相应的请求返回给客户端的5000端口。然后使用IP层的IP地址查找目的端。</p>
 <p> 3、客户端的<strong>网络层（添加IP头）</strong>不用关系应用层或者传输层的东西，主要做的是通过查找路由表确定如何到达服务器，期间可能经过多个路由器，这些都是由路由器来完成的工作，我不作过多的描述，无非就是通过查找路由表决定通过那个路径到达服务器。</p>
 <p> 4、客户端的<strong>链路层（添加MAC头）</strong>，包通过链路层发送到路由器，通过邻居协议查找给定IP地址的MAC地址，然后发送ARP请求查找目的地址，如果得到回应后就可以使用ARP的请求应答交换的IP数据包现在就可以传输了，然后发送IP数据包到达服务器的地址。</p>
@@ -405,9 +405,13 @@
 <p>（1） <strong>DNS</strong>：用于域名解析服务，将域名地址转换为IP地址。DNS用的是<strong>53</strong>号端口。</p>
 <p>（2） <strong>SNMP</strong>：简单网络管理协议，使用<strong>161</strong>号端口，是用来管理网络设备的。由于网络设备很多，无连接的服务就体现出其优势。</p>
 <p>（3） <strong>TFTP</strong>(Trival File Transfer Protocal)，简单文件传输协议，该协议在熟知端口<strong>69</strong>上使用UDP服务。</p>
-<h3 id="DNS域名系统，简单描述其工作原理"><a href="#DNS域名系统，简单描述其工作原理" class="headerlink" title="DNS域名系统，简单描述其工作原理"></a>DNS域名系统，简单描述其工作原理</h3><p>当DNS客户机需要在程序中使用名称时，它会查询DNS服务器来解析该名称。客户机发送的每条查询信息包括三条信息：包括：指定的DNS域名，指定的查询类型，DNS域名的指定类别。基于UDP服务，端口53. 该应用一般不直接为用户使用，而是为其他应用服务，如HTTP，SMTP等在其中需要完成主机名到IP地址的转换。</p>
-<h3 id="面向连接和非面向连接的服务的特点是什么？"><a href="#面向连接和非面向连接的服务的特点是什么？" class="headerlink" title="面向连接和非面向连接的服务的特点是什么？"></a>面向连接和非面向连接的服务的特点是什么？</h3><p>　面向连接的服务，通信双方在进行通信之前，要先在双方建立起一个完整的可以彼此沟通的通道，在通信过程中，整个连接的情况一直可以被实时地监控和管理。</p>
-<p>​    非面向连接的服务，不需要预先建立一个联络两个通信节点的连接，需要通信的时候，发送节点就可以往网络上发送信息，让信息自主地在网络上去传，一般在传输的过程中不再加以监控。</p>
+<h3 id="DNS域名系统，简单描述其工作原理"><a href="#DNS域名系统，简单描述其工作原理" class="headerlink" title="DNS域名系统，简单描述其工作原理"></a>DNS域名系统，简单描述其工作原理</h3><p>当DNS客户机需要在程序中使用名称时，它会查询DNS服务器来解析该名称。<br><br>客户机发送的每条查询信息包括三条信息：包括：指定的DNS域名，指定的查询类型，DNS域名的指定类别。<br><br>基于UDP服务，端口53. 该应用一般不直接为用户使用，而是为其他应用服务，如HTTP，SMTP等在其中需要完成主机名到IP地址的转换。</p>
+<h3 id="面向连接和非面向连接的服务的特点是什么？"><a href="#面向连接和非面向连接的服务的特点是什么？" class="headerlink" title="面向连接和非面向连接的服务的特点是什么？"></a>面向连接和非面向连接的服务的特点是什么？</h3><blockquote>
+<p>面向连接的服务:通信双方在进行通信之前，要先在双方建立起一个完整的可以彼此沟通的通道，在通信过程中，整个连接的情况一直可以被实时地监控和管理。</p>
+</blockquote>
+<blockquote>
+<p>​非面向连接的服务:不需要预先建立一个联络两个通信节点的连接，需要通信的时候，发送节点就可以往网络上发送信息，让信息自主地在网络上去传，一般在传输的过程中不再加以监控。</p>
+</blockquote>
 <h3 id="了解交换机、路由器、网关的概念，并知道各自的用途"><a href="#了解交换机、路由器、网关的概念，并知道各自的用途" class="headerlink" title="了解交换机、路由器、网关的概念，并知道各自的用途"></a>了解交换机、路由器、网关的概念，并知道各自的用途</h3><p><strong>1）交换机</strong></p>
 <p>在计算机网络系统中，交换机是针对共享工作模式的弱点而推出的。交换机拥有一条高带宽的背部总线和内部交换矩阵。交换机的所有的端口都挂接在这条背 部总线上，当控制电路收到数据包以后，<strong>处理端口会查找内存中的地址对照表以确定目的MAC（网卡的硬件地址）的NIC（网卡）挂接在哪个端口上</strong>，通过内部 交换矩阵迅速将数据包传送到目的端口。目的MAC若不存在，交换机才广播到所有的端口，接收端口回应后交换机会“学习”新的地址，并把它添加入内部地址表 中。</p>
 <p><strong>交换机工作于OSI参考模型的第二层，即数据链路层</strong>。交换机内部的CPU会在每个端口成功连接时，通过ARP协议学习它的MAC地址，保存成一张 ARP表。在今后的通讯中，发往该MAC地址的数据包将仅送往其对应的端口，而不是所有的端口。因此，交换机可用于划分数据链路层广播，即冲突域；但它不 能划分网络层广播，即广播域。</p>
@@ -448,6 +452,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/04/25/What%20Happens%20When%20You%20Hit%20Enter/">What Happens When You Hit Enter</a>
             
             
             <a class="next" rel="next" href="/2020/04/19/Redhat7-6-About-HTTPd/">Redhat7.6 About HTTPd</a>
