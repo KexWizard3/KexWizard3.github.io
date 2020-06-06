@@ -211,8 +211,8 @@
 <li>面向连接和非面向连接的服务的特点</li>
 <li>了解交换机，路由器，网关的概念，用途</li>
 </ul>
-<h3 id="OSI参考模型、TCP-IP参考模型"><a href="#OSI参考模型、TCP-IP参考模型" class="headerlink" title="OSI参考模型、TCP/IP参考模型"></a>OSI参考模型、TCP/IP参考模型</h3><p><img src="../../../../%E5%9B%BE%E7%89%87/Snipaste_2020-04-21_21-15-36.png" alt=""></p>
-<h4 id="封装过程"><a href="#封装过程" class="headerlink" title="封装过程"></a>封装过程</h4><p><img src="../../../../%E5%9B%BE%E7%89%87/fz.jpg" alt=""></p>
+<h3 id="OSI参考模型、TCP-IP参考模型"><a href="#OSI参考模型、TCP-IP参考模型" class="headerlink" title="OSI参考模型、TCP/IP参考模型"></a>OSI参考模型、TCP/IP参考模型</h3><p><img src="../../../../%E5%9B%BE%E7%89%87/20200421/Snipaste_2020-04-21_21-15-36.png" alt=""></p>
+<h4 id="封装过程"><a href="#封装过程" class="headerlink" title="封装过程"></a>封装过程</h4><p><img src="../../../../%E5%9B%BE%E7%89%87/20200421/fz.jpg" alt=""></p>
 <h4 id="每层协议如下"><a href="#每层协议如下" class="headerlink" title="每层协议如下"></a>每层协议如下</h4><hr>
 
 <p>物理层：  RJ45、CLOCK、IEEE802.3    （中继器，集线器，网关）</p>
@@ -262,7 +262,7 @@
 <blockquote>
 <p>每个地址分为两部分。<b>网络部分</b>和<b>主机部分</b>：前者表示其网络所属编号，后者表示该网段中该主机的地址和地址编号。按照网络的规模大小，IP地址可分为A、B、C、D、E五类。</p>
 </blockquote>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/ipdz.jpg" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200421/ipdz.jpg" alt=""></p>
 <h4 id="私有地址"><a href="#私有地址" class="headerlink" title="私有地址"></a>私有地址</h4><ol>
 <li>留用的内部私有地址，Internet上没使用的地址</li>
 <li>IP地址与子网掩码相与得到网络号</li>
@@ -333,7 +333,7 @@
 <td>动态主机配置协议，是一种让系统得以连接到网络上，并获取所需要的配置参数手段，使用UDP协议工作。具体用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。</td>
 </tr>
 </tbody></table>
-<h3 id="TCP三次握手四次挥手"><a href="#TCP三次握手四次挥手" class="headerlink" title="TCP三次握手四次挥手"></a>TCP三次握手四次挥手</h3><img src="../../../../图片/tcp3.jpeg" style="zoom:80%;" />
+<h3 id="TCP三次握手四次挥手"><a href="#TCP三次握手四次挥手" class="headerlink" title="TCP三次握手四次挥手"></a>TCP三次握手四次挥手</h3><img src="../../../../图片/20200421/tcp3.jpeg" style="zoom:80%;" />
 
 <p>所谓的<font color=red>三次握手</font>即TCP连接的建立</p>
 <p>这个连接必须是一方主动打开，另一方被动打开的</p>
@@ -361,7 +361,7 @@
 <p>​    服务器收到来自客户端的“确认收到服务器数据”的TCP报文之后，明确了从服务器到客户端的数据传输是正常的。结束SYN-SENT阶段，进入ESTABLISHED阶段。</p>
 <p>​    在客户端与服务器端传输的TCP报文中，双方的确认号Ack和序号Seq的值，都是在彼此Ack和Seq值的基础上进行计算的，这样做保证了TCP报文传输的连贯性。一旦出现某一方发出的TCP报文丢失，便无法继续”握手”，以此确保了”三次握手”的顺利完成。</p>
 <p>​    此后客户端和服务器端进行正常的数据传输。这就是“三次握手”的过程。</p>
-<img src="../../../../图片/tcp4.jpeg" style="zoom:80%;" />
+<img src="../../../../图片/20200421/tcp4.jpeg" style="zoom:80%;" />
 
 <p>所谓的<font color=red>四次挥手</font>即TCP连接的释放(解除)</p>
 <p>连接的释放必须是一方主动释放，另一方被动释放</p>
@@ -424,13 +424,13 @@
 </ol>
 <p><strong>什么是TCP连接</strong></p>
 <p>TCP连接是一种抽象的概念，表示一条可以通信的链路。<br>每个TCP连接有且<font color=red>仅有两个端点</font>，表示通信的双方，且双方在任意时刻都可以作为发送者和接受者。</p>
-<img src="../../../../图片/tcp.png" style="zoom: 80%;" />
+<img src="../../../../图片/20200421/tcp.png" style="zoom: 80%;" />
 
 
 
 <p><strong>什么是套接字</strong></p>
 <p>一条TCP连接的两端就是两个套接字。<br><font color=red>套接字 = IP地址 ：端口号</font><br>因此，TCP连接 = （套接字1，套接字2）= （IP1：端口号1，IP2：端口号2）</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/tjz.jpg" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200421/tjz.jpg" alt=""></p>
 <h3 id="TCP对应的协议和UDP对应的协议"><a href="#TCP对应的协议和UDP对应的协议" class="headerlink" title="TCP对应的协议和UDP对应的协议"></a>TCP对应的协议和UDP对应的协议</h3><p><strong>TCP对应的协议：</strong></p>
 <p>（1） <strong>FTP</strong>：定义了文件传输协议，使用<strong>21</strong>端口。</p>
 <p>（2） <strong>Telnet</strong>：一种用于远程登陆的端口，使用<strong>23</strong>端口，用户可以以自己的身份远程连接到计算机上，可提供基于DOS模式下的通信服务。</p>

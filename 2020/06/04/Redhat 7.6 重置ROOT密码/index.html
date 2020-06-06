@@ -201,18 +201,18 @@
             <h1 id="重置ROOT密码"><a href="#重置ROOT密码" class="headerlink" title="重置ROOT密码"></a>重置ROOT密码</h1><p>查看当前的系统版本输入以下命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;etc&#x2F;redhat-release</span><br><span class="line">Red Hat Enterprise Linux Server release 7.6 (Maipo) &#x2F;&#x2F;当前版本</span><br></pre></td></tr></table></figure>
 
-<p><img src="../../../../%E5%9B%BE%E7%89%87/6-4-2.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200604/6-4-2.png" alt=""></p>
 <p>重启Linux 系统进入引导界面，按下键盘上的e键进入内核编辑界面</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/6-4-4.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200604/6-4-4.png" alt=""></p>
 <p>在linux16参数这行最后追加  ‘ rd.break ’参数</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/6-4-5.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200604/6-4-5.png" alt=""></p>
 <p>然后按下Ctrl+X组合键来运行修改过的内核程序</p>
 <p>当进入紧急求援模式</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/6-4-1.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200604/6-4-1.png" alt=""></p>
 <p>输入以下命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw &#x2F;sysroot</span><br><span class="line">chroot &#x2F;sysroot</span><br><span class="line">New password: 			&#x2F;&#x2F;输入新的密码</span><br><span class="line">Retype new passwprd:		&#x2F;&#x2F;输入新的密码</span><br><span class="line">touch &#x2F;.autorelabel</span><br><span class="line">exit</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
 
-<p><img src="../../../../%E5%9B%BE%E7%89%87/6-4-3.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200604/6-4-3.png" alt=""></p>
 <p>更改成功！</p>
 <p>PS：可能会遇到错误信息重启试试。</p>
 

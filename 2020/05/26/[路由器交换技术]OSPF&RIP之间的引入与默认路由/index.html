@@ -206,7 +206,7 @@
 <li><p>为每个路由器主机添加信息</p>
 </li>
 </ul>
-<h3 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图</h3><p>  <img src="../../../../%E5%9B%BE%E7%89%87/1.png" alt=""></p>
+<h3 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图</h3><p>  <img src="../../../../%E5%9B%BE%E7%89%87/20200526/1.png" alt=""></p>
 <h3 id="在为每个设备添加完信息后"><a href="#在为每个设备添加完信息后" class="headerlink" title="在为每个设备添加完信息后"></a>在为每个设备添加完信息后</h3><h3 id="开始规划区域-分别使用RIP、OSPF"><a href="#开始规划区域-分别使用RIP、OSPF" class="headerlink" title="开始规划区域 分别使用RIP、OSPF"></a>开始规划区域 分别使用RIP、OSPF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在AR1中启用RIP 1 </span><br><span class="line">&lt;AR1&gt;sys</span><br><span class="line">[AR1]rip 1</span><br><span class="line">[AR1-rip-1]v 2</span><br><span class="line">[AR1-rip-1]net 192.168.10.0</span><br><span class="line">[AR1-rip-1]net 192.168.1.0</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;在AR2中启用RIP 1</span><br><span class="line">&lt;AR2&gt;sys</span><br><span class="line">[AR2]rip 1</span><br><span class="line">[AR2-rip-1]v 2</span><br><span class="line">[AR2-rip-1]net 192.168.20.0</span><br><span class="line">[AR2-rip-1]net 192.168.2.0</span><br><span class="line">[AR2-rip-1]net 192.168.1.0</span><br></pre></td></tr></table></figure>
@@ -214,7 +214,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;在AR3中启用RIP 1	（只在G0&#x2F;0&#x2F;2端口启用RIP协议）</span><br><span class="line">&lt;AR3&gt;sys</span><br><span class="line">[AR3]rip 1</span><br><span class="line">[AR3-rip-1]v 2</span><br><span class="line">[AR3-rip-1]net 192.168.2.0</span><br></pre></td></tr></table></figure>
 
 <p>查看AR3的路由表</p>
-<img src="../../../../图片/2.png" style="zoom:80%;" />
+<img src="../../../../图片/20200526/2.png" style="zoom:80%;" />
 
 <p>看到AR1/AR2上的网段已经在AR3路由表里了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[AR3]ospf 1 router-id 3.3.3.3</span><br><span class="line">[AR3-ospf-1]area 0</span><br><span class="line">[AR3-ospf-1-area-0.0.0.0]net 192.168.3.0 0.0.0.255</span><br><span class="line">[AR3-ospf-1-area-0.0.0.0]net 192.168.30.0 0.0.0.255</span><br><span class="line">[AR3-ospf-1-area-0.0.0.0]net 3.3.3.3 0.0.0.0</span><br></pre></td></tr></table></figure>
@@ -222,23 +222,23 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[AR4]ospf 1 router-id 4.4.4.4	</span><br><span class="line">[AR4-ospf-1]area 0</span><br><span class="line">[AR4-ospf-1-area-0.0.0.0]net 192.168.3.0 0.0.0.255</span><br><span class="line">[AR4-ospf-1-area-0.0.0.0]net 192.168.40.0 0.0.0.255</span><br><span class="line">[AR4-ospf-1-area-0.0.0.0]net 4.4.4.4 0.0.0.0</span><br></pre></td></tr></table></figure>
 
 <p>查看此时AR4的路由表</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/3.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200526/3.png" alt=""></p>
 <p>AR4的路由表中已经由AR3  192.168.30.0网段了 通过的是 OSPF协议</p>
 <h3 id="此时需要在AR3中-引入RIP"><a href="#此时需要在AR3中-引入RIP" class="headerlink" title="此时需要在AR3中 引入RIP"></a>此时需要在AR3中 引入RIP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[AR3-ospf-1]import-route rip</span><br></pre></td></tr></table></figure>
 
 <p>查看AR3路由表</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/4.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200526/4.png" alt=""></p>
 <p>可以看到再引入RIP之后 AR3路由表中就有RIP协议的网段信息</p>
 <p>查看AR4路由表</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/5.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200526/5.png" alt=""></p>
 <p>也有 AR1/2 路由器上的网段信息 类型为 O_ASE</p>
 <p>这时 AR1/2 路由器中还没有 AR3/4的网段信息 所以在AR3上配置命令</p>
 <h3 id="在RIP中引入OSPF"><a href="#在RIP中引入OSPF" class="headerlink" title="在RIP中引入OSPF"></a>在RIP中引入OSPF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[AR3-rip-1]import-route ospf 1</span><br></pre></td></tr></table></figure>
 
 <p>再查看AR1/2上的路由表</p>
-<p><img src="../../../../图片/6.png" style="zoom:70%;" /><img src="../../../../图片/7.png" style="zoom:70%;" /></p>
+<p><img src="../../../../图片/20200526/6.png" style="zoom:70%;" /><img src="../../../../图片/20200526/7.png" style="zoom:70%;" /></p>
 <p>使用PC1 ping  PC3</p>
-<img src="../../../../图片/8.png" style="zoom:70%;" />
+<img src="../../../../图片/20200526/8.png" style="zoom:70%;" />
 
 <p>ping 通了。</p>
 <h3 id="此时要添加默认路由让所有主机都能ping通AR5"><a href="#此时要添加默认路由让所有主机都能ping通AR5" class="headerlink" title="此时要添加默认路由让所有主机都能ping通AR5"></a>此时要添加默认路由让所有主机都能ping通AR5</h3><blockquote>
@@ -254,7 +254,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[AR4-ospf-1]default-route-advertise</span><br></pre></td></tr></table></figure>
 
 <p>此时查看 AR3的路由表</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/9.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200526/9.png" alt=""></p>
 <p>路由表中新添加了一个 O_ASE 的默认路由 </p>
 <p>使用PC3 ping AR5 &gt; IP :192.168.4.2</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F;显示超时</span><br><span class="line"></span><br><span class="line">Ping 192.168.4.2: 32 data bytes, Press Ctrl_C to break</span><br><span class="line">Request timeout!</span><br><span class="line">Request timeout!</span><br><span class="line">Request timeout!</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;通过追踪</span><br><span class="line"></span><br><span class="line">PC&gt;tracert 192.168.4.2</span><br><span class="line"></span><br><span class="line">traceroute to 192.168.4.2, 8 hops max</span><br><span class="line">(ICMP), press Ctrl+C to stop</span><br><span class="line"> 1  192.168.30.254   31 ms  47 ms  31 ms</span><br><span class="line"> 2  192.168.3.2   47 ms  47 ms  47 ms</span><br><span class="line"> 3    *  *  *</span><br><span class="line"> 4    *  *  *</span><br><span class="line"> 5    *  *</span><br></pre></td></tr></table></figure>
@@ -275,8 +275,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[AR3-rip-1]default-route originate</span><br></pre></td></tr></table></figure>
 
 <p>完成后查看AR1/2的路由表：</p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/10.png" alt=""></p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/11.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200526/10.png" alt=""></p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200526/11.png" alt=""></p>
 <p>看到两个路由表中都有一条 0.0.0.0 的默认路由</p>
 <p>使用PC进行ping测试</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PC&gt;ping 192.168.4.2</span><br><span class="line"></span><br><span class="line">Ping 192.168.4.2: 32 data bytes, Press Ctrl_C to break</span><br><span class="line">From 192.168.4.2: bytes&#x3D;32 seq&#x3D;1 ttl&#x3D;251 time&#x3D;62 ms</span><br><span class="line">From 192.168.4.2: bytes&#x3D;32 seq&#x3D;2 ttl&#x3D;251 time&#x3D;47 ms</span><br><span class="line">From 192.168.4.2: bytes&#x3D;32 seq&#x3D;3 ttl&#x3D;251 time&#x3D;47 ms</span><br><span class="line">From 192.168.4.2: bytes&#x3D;32 seq&#x3D;4 ttl&#x3D;251 time&#x3D;62 ms</span><br><span class="line">From 192.168.4.2: bytes&#x3D;32 seq&#x3D;5 ttl&#x3D;251 time&#x3D;47 ms</span><br><span class="line"></span><br><span class="line">--- 192.168.4.2 ping statistics ---</span><br><span class="line">  5 packet(s) transmitted</span><br><span class="line">  5 packet(s) received</span><br><span class="line">  0.00% packet loss</span><br><span class="line">  round-trip min&#x2F;avg&#x2F;max &#x3D; 47&#x2F;53&#x2F;62 ms</span><br></pre></td></tr></table></figure>
