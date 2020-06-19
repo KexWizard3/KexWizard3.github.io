@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>虚拟局域网（VLAN）技术-相关配置篇 | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">虚拟局域网（VLAN）技术-相关配置篇</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 19, 2020&nbsp;&nbsp;11:42:51</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%B7%AF%E7%94%B1%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%8A%80%E6%9C%AF/">路由与交换技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="虚拟局域网（VLAN）技术-相关配置篇"><a href="#虚拟局域网（VLAN）技术-相关配置篇" class="headerlink" title="虚拟局域网（VLAN）技术-相关配置篇"></a>虚拟局域网（VLAN）技术-相关配置篇</h1><ul>
+<li>VLAN实施<ol>
+<li>VLAN的添加与删除</li>
+<li>Access接口与Trunk接口的配置</li>
+<li>Hybrid接口的配置</li>
+<li>检查VLAN信息</li>
+<li>GVRP的配置</li>
+</ol>
+</li>
+</ul>
+<h3 id="VLAN的添加与删除"><a href="#VLAN的添加与删除" class="headerlink" title="VLAN的添加与删除"></a>VLAN的添加与删除</h3><blockquote>
+<p><strong>vlan</strong> vlan-id：创建单个VLAN并进入相应视图，参数id的取值范围是1~4094，默认存在是vlan1；</p>
+</blockquote>
+<blockquote>
+<p><strong>vlan</strong> batch {vlan-id1 vlan-id2}：创建多个VLAN，不会进入相应视图；</p>
+</blockquote>
+<blockquote>
+<p><strong>vlan</strong> batch {vlan-id1 [to vlan-id2]}：创建多个连续的VLAN，不会进入相应视图；</p>
+</blockquote>
+<p><strong>拓扑图</strong> ：</p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200615/6-15-1.png" alt=""></p>
+<p>四台主机在同一网段（192.168.10.0）下，若不添加VLAN则是可以PING通的，若添加如图所示的VLAN，则4个主机被划分在了两个不同的VLAN中。</p>
+<p>配置命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;在LSW1中创建VLAN10&amp;20</span><br><span class="line">[SW1] vlan batch 10 20</span><br><span class="line">[SW1] vlan 10</span><br><span class="line">[SW1-vlan10] description This is VLAN10	&#x2F;&#x2F;可添加描述信息</span><br><span class="line">[SW1-vlan10] quit</span><br><span class="line">[SW1] vlan 20</span><br><span class="line">[SW1-vlan10] description This is VLAN20 &#x2F;&#x2F;可添加描述信息 </span><br><span class="line">[SW1-vlan10] quit</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Access接口与Trunk接口的配置"><a href="#Access接口与Trunk接口的配置" class="headerlink" title="Access接口与Trunk接口的配置"></a>Access接口与Trunk接口的配置</h3><blockquote>
+<p>交换机与主机之间的接口模式是Access，与交换机之间的交口模式是Trunk；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[SW1] interface e0&#x2F;0&#x2F;1</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1] port link-type access</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1] port default vlan 10</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1] quit</span><br><span class="line">[SW1]interface e0&#x2F;0&#x2F;2</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2] port link-type access</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2] port default vlan 20</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2] quit</span><br><span class="line">[SW1] interface e0&#x2F;0&#x2F;3</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;3] port link-type trunk</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;3] port trunk allow-pass vlan all </span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;3] quit</span><br></pre></td></tr></table></figure>
+
+<p>查看SW1中的VLAN信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[SW1]display vlan</span><br><span class="line">The total number of vlans is : 3</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">U: Up;         D: Down;         TG: Tagged;         UT: Untagged;</span><br><span class="line">MP: Vlan-mapping;               ST: Vlan-stacking;</span><br><span class="line">#: ProtocolTransparent-vlan;    *: Management-vlan;</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">VID  Type    Ports                                                          </span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">1    common  UT:Eth0&#x2F;0&#x2F;3(U)     Eth0&#x2F;0&#x2F;4(D)     Eth0&#x2F;0&#x2F;5(D)     Eth0&#x2F;0&#x2F;6(D)     </span><br><span class="line">                Eth0&#x2F;0&#x2F;7(D)     Eth0&#x2F;0&#x2F;8(D)     Eth0&#x2F;0&#x2F;9(D)     Eth0&#x2F;0&#x2F;10(D)    </span><br><span class="line">                Eth0&#x2F;0&#x2F;11(D)    Eth0&#x2F;0&#x2F;12(D)    Eth0&#x2F;0&#x2F;13(D)    Eth0&#x2F;0&#x2F;14(D)    </span><br><span class="line">                Eth0&#x2F;0&#x2F;15(D)    Eth0&#x2F;0&#x2F;16(D)    Eth0&#x2F;0&#x2F;17(D)    Eth0&#x2F;0&#x2F;18(D)    </span><br><span class="line">                Eth0&#x2F;0&#x2F;19(D)    Eth0&#x2F;0&#x2F;20(D)    Eth0&#x2F;0&#x2F;21(D)    Eth0&#x2F;0&#x2F;22(D)    </span><br><span class="line">                GE0&#x2F;0&#x2F;1(D)      GE0&#x2F;0&#x2F;2(D)                                      </span><br><span class="line"></span><br><span class="line">10   common  UT:Eth0&#x2F;0&#x2F;1(U)                                                     </span><br><span class="line">             TG:Eth0&#x2F;0&#x2F;3(U)                                                     </span><br><span class="line"></span><br><span class="line">20   common  UT:Eth0&#x2F;0&#x2F;2(U)                                                     </span><br><span class="line">             TG:Eth0&#x2F;0&#x2F;3(U)                                                     </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">VID  Status  Property      MAC-LRN Statistics Description      </span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">1    enable  default       enable  disable    VLAN 0001                         </span><br><span class="line">10   enable  default       enable  disable    This is VLAN10                    </span><br><span class="line">20   enable  default       enable  disable    This is VLAN20</span><br></pre></td></tr></table></figure>
+
+<p><b>SW2 同上配置！</b></p>
+<p>删除VLAN在添加相应vlan的命令前加{undo};</p>
+<p>此时：在PC1上ping 192.168.10.2~4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">PC&gt;ping 192.168.10.2</span><br><span class="line">Ping 192.168.10.2: 32 data bytes, Press Ctrl_C to break</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">--- 192.168.10.2 ping statistics ---</span><br><span class="line">  5 packet(s) transmitted</span><br><span class="line">  0 packet(s) received</span><br><span class="line">  100.00% packet loss</span><br><span class="line"></span><br><span class="line">PC&gt;ping 192.168.10.3</span><br><span class="line">Ping 192.168.10.3: 32 data bytes, Press Ctrl_C to break</span><br><span class="line">From 192.168.10.3: bytes&#x3D;32 seq&#x3D;1 ttl&#x3D;128 time&#x3D;62 ms</span><br><span class="line">From 192.168.10.3: bytes&#x3D;32 seq&#x3D;2 ttl&#x3D;128 time&#x3D;63 ms</span><br><span class="line">From 192.168.10.3: bytes&#x3D;32 seq&#x3D;3 ttl&#x3D;128 time&#x3D;47 ms</span><br><span class="line">From 192.168.10.3: bytes&#x3D;32 seq&#x3D;4 ttl&#x3D;128 time&#x3D;47 ms</span><br><span class="line">From 192.168.10.3: bytes&#x3D;32 seq&#x3D;5 ttl&#x3D;128 time&#x3D;47 ms</span><br><span class="line">--- 192.168.10.3 ping statistics ---</span><br><span class="line">  5 packet(s) transmitted</span><br><span class="line">  5 packet(s) received</span><br><span class="line">  0.00% packet loss</span><br><span class="line">  round-trip min&#x2F;avg&#x2F;max &#x3D; 47&#x2F;53&#x2F;63 ms</span><br><span class="line"></span><br><span class="line">PC&gt;ping 192.168.10.4</span><br><span class="line">Ping 192.168.10.4: 32 data bytes, Press Ctrl_C to break</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">From 192.168.10.1: Destination host unreachable</span><br><span class="line">--- 192.168.10.4 ping statistics ---</span><br><span class="line">  5 packet(s) transmitted</span><br><span class="line">  0 packet(s) received</span><br><span class="line">  100.00% packet loss</span><br></pre></td></tr></table></figure>
+
+<p>PC1只能与同一VLAN下的主机连通，配置完成。</p>
+<h3 id="Hybrid接口的配置"><a href="#Hybrid接口的配置" class="headerlink" title="Hybrid接口的配置"></a>Hybrid接口的配置</h3><blockquote>
+<p><b>port link-type hybrid</b>：管理员配置命令，华为交换机的接口默认链路类型就是hybrid</p>
+</blockquote>
+<blockquote>
+<p><b>port hybrid tagged valn</b>：为需要转发的VLAN数据添加标签</p>
+</blockquote>
+<blockquote>
+<p><b>prot hybrid untagged vlan</b>：用来设置不带标签的VLAN数据</p>
+</blockquote>
+<p><b>拓扑图：</b></p>
+<img src="../../../../图片/20200615/6-19-1.PNG"  />
+
+<p>此拓扑图结构为二层交换，所属在同一网段下，由VLAN划分出广播域，<strong>目的是让PC1-1与PC1-2之间不互通，与Server1之间互通</strong>，此次使用Hybrid链路模式</p>
+<p>创建好VLAN后，为每个接口进行配置。</p>
+<p>配置命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[SW1] interface e0&#x2F;0&#x2F;1</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1] port hybrid pvid vlan 10			&#x2F;&#x2F;为端口设置默认的VLAN10</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1] port hybrid untagged vlan 10 100	&#x2F;&#x2F;此端口接收帧时允许VLAN10 100通过</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1] quit</span><br><span class="line">[SW1] interface e0&#x2F;0&#x2F;2</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2] port hybrid pvid vlan 20			</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2] port hybrid untagged vlan 20 100</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2] quit</span><br><span class="line">[SW1]interface g0&#x2F;0&#x2F;1</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1] port link-type hybird		&#x2F;&#x2F;将端口类型设置为Hybird模式</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1] port hybrid tagged vlan 10 20 100 &#x2F;&#x2F;从此端口发送帧加上VLAN标签</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1] quit</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[SW2] interface g0&#x2F;0&#x2F;1</span><br><span class="line">[SW2-GigabitEthernet0&#x2F;0&#x2F;1] port hybrid tagged vlan 10 20 100</span><br><span class="line">[SW2-GigabitEthernet0&#x2F;0&#x2F;1] quit</span><br><span class="line">[SW2]interface e0&#x2F;0&#x2F;1</span><br><span class="line">[SW2-Ethernet0&#x2F;0&#x2F;1] port hybrid pvid vlan 10</span><br><span class="line">[SW2-Ethernet0&#x2F;0&#x2F;1] port hybrid untagged vlan 10 20 100</span><br><span class="line">[SW2-Ethernet0&#x2F;0&#x2F;1] quit</span><br></pre></td></tr></table></figure>
+
+<p>配置完成。</p>
+<p><strong>Hybird下带标记与不带标记的问题</strong>：</p>
+<p>例如如上图，</p>
+<p>在SW1 E0/0/1口上 设置了默认的VLAN10（port hybird pvid vlan10） </p>
+<p>如果从此端口 <strong><em>发送</em></strong> 帧则会被打上VLAN10 的标签；</p>
+<p>如果从此端口 <strong><em>接收</em></strong> 帧则将交换机中受到的带标签的VLAN10 100帧 去除帧标签，发送给PC1-1；</p>
+<p>在交换机的G0/0/1口上 对端是交换设备可以识别带标记的帧，所有发出的帧都是带标记的。</p>
+<p>*VLAN流量统计功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[SW1]vlan 10</span><br><span class="line">[SW1-vlan10] statistic enable</span><br><span class="line">[SW1-vlan10] quit</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="检查VLAN信息"><a href="#检查VLAN信息" class="headerlink" title="检查VLAN信息"></a>检查VLAN信息</h3><p>dispaly vlan //查看VLAN配置<br>display vlan 10 //查看VLAN10的配置<br>display vlan 10 verbose //查看VLAN10的详细配置<br>display vlan 10 statistics //查看VLAN10的流量统计信息(前提是VLAN流量统计功能是开启的) </p>
+<h3 id="GPVG配置"><a href="#GPVG配置" class="headerlink" title="GPVG配置"></a>GPVG配置</h3><p><b>拓扑图：</b></p>
+<img src="../../../../图片/20200615/6-19-2.PNG" style="zoom:100%;" />
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[SW6] gvrp</span><br><span class="line">[SW6] vlan 5			&#x2F;&#x2F;创建VLAN5 通过gvrp同步到SW7&amp;8 </span><br><span class="line">[SW6] interface g0&#x2F;0&#x2F;1</span><br><span class="line">[SW6-GigabitEthernet0&#x2F;0&#x2F;1] port link-type trunk</span><br><span class="line">[SW6-GigabitEthernet0&#x2F;0&#x2F;1] port trunk allow-pass vlan all</span><br><span class="line">[SW6-GigabitEthernet0&#x2F;0&#x2F;1] gvrp</span><br><span class="line"></span><br><span class="line">[SW7] gvrp</span><br><span class="line">[SW7] interface g0&#x2F;0&#x2F;1</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;1] port link-type trunk</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;1] port trunk allow-pass vlan all</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;1] gvrp</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;1] quit</span><br><span class="line">[SW7] interface g0&#x2F;0&#x2F;2</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;2] port link-type trunk</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;2] port trunk allow-pass vlan all</span><br><span class="line">[SW7-GigabitEthernet0&#x2F;0&#x2F;2] gvrp</span><br><span class="line"></span><br><span class="line">[SW8] gvrp</span><br><span class="line">[SW8] VLAN 5			&#x2F;&#x2F;为了使SW7 的G0&#x2F;0&#x2F;2端口也同步到VLAN信息</span><br><span class="line">[SW8] interface g0&#x2F;0&#x2F;2</span><br><span class="line">[SW8-GigabitEthernet0&#x2F;0&#x2F;2] port link-type trunk</span><br><span class="line">[SW8-GigabitEthernet0&#x2F;0&#x2F;2] port trunk allow-pass vlan all</span><br><span class="line">[SW8-GigabitEthernet0&#x2F;0&#x2F;2] gvrp</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看SW7的VLAN信息</span><br><span class="line">&#x2F;&#x2F;Dynamic（动态VLAN）</span><br><span class="line">[SW7] display vlan</span><br><span class="line">The total number of vlans is : 2</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">U: Up;         D: Down;         TG: Tagged;         UT: Untagged;</span><br><span class="line">MP: Vlan-mapping;               ST: Vlan-stacking;</span><br><span class="line">#: ProtocolTransparent-vlan;    *: Management-vlan;</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">VID  Type    Ports                                                          </span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">1    common  UT:Eth0&#x2F;0&#x2F;1(D)     Eth0&#x2F;0&#x2F;2(D)     Eth0&#x2F;0&#x2F;3(D)     Eth0&#x2F;0&#x2F;4(D)     </span><br><span class="line">                Eth0&#x2F;0&#x2F;5(D)     Eth0&#x2F;0&#x2F;6(D)     Eth0&#x2F;0&#x2F;7(D)     Eth0&#x2F;0&#x2F;8(D)     </span><br><span class="line">                Eth0&#x2F;0&#x2F;9(D)     Eth0&#x2F;0&#x2F;10(D)    Eth0&#x2F;0&#x2F;11(D)    Eth0&#x2F;0&#x2F;12(D)    </span><br><span class="line">                Eth0&#x2F;0&#x2F;13(D)    Eth0&#x2F;0&#x2F;14(D)    Eth0&#x2F;0&#x2F;15(D)    Eth0&#x2F;0&#x2F;16(D)    </span><br><span class="line">                Eth0&#x2F;0&#x2F;17(D)    Eth0&#x2F;0&#x2F;18(D)    Eth0&#x2F;0&#x2F;19(D)    Eth0&#x2F;0&#x2F;20(D)    </span><br><span class="line">                Eth0&#x2F;0&#x2F;21(D)    Eth0&#x2F;0&#x2F;22(D)    GE0&#x2F;0&#x2F;1(U)      GE0&#x2F;0&#x2F;2(U)      </span><br><span class="line"></span><br><span class="line">5  	 dynamic TG:GE0&#x2F;0&#x2F;1(U)      GE0&#x2F;0&#x2F;2(U)                                     </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">VID  Status  Property      MAC-LRN Statistics Description      </span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">1    enable  default       enable  disable    VLAN 0001                         </span><br><span class="line">5    enable  default       enable  disable    VLAN 0005</span><br></pre></td></tr></table></figure>
+
+<p>配置完成！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/VLAN%E6%8A%80%E6%9C%AF/"># VLAN技术</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/06/17/Javascript-%E5%AE%9E%E7%8E%B0%E7%BD%91%E9%A1%B5%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E6%94%BE%E5%A4%A7/">Javascript-实现网页中图片的放大</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
