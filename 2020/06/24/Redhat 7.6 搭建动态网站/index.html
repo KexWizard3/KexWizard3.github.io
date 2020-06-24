@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>Rredhat 7.6 动态网站 | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Rredhat 7.6 动态网站</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 24, 2020&nbsp;&nbsp;18:54:37</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Redhat-Linux/">Redhat Linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="在Redhat-Linux上搭建动态网站"><a href="#在Redhat-Linux上搭建动态网站" class="headerlink" title="在Redhat Linux上搭建动态网站"></a>在Redhat Linux上搭建动态网站</h1><ul>
+<li><p>系统镜像</p>
+<ul>
+<li>Redhat Server 7.6 x86_64.iso</li>
+</ul>
+</li>
+<li><p>YUM仓库挂载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;media&#x2F;cdrom</span><br><span class="line">mount &#x2F;dev&#x2F;cdrom &#x2F;media&#x2F;cdrom</span><br><span class="line">vim &#x2F;etc&#x2F;yumrepos.d&#x2F;rhel7.repo</span><br><span class="line">&#x2F;&#x2F;文件内容</span><br><span class="line">------------------------------</span><br><span class="line">[rhel7]</span><br><span class="line">name&#x3D;rhel7</span><br><span class="line">baseurl:file:&#x2F;&#x2F;&#x2F;media&#x2F;cdrom</span><br><span class="line">enable&#x3D;1</span><br><span class="line">gpgcheck&#x3D;0</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>软件安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y httpd mariadb mariadb-sever php php-mysql php-*</span><br></pre></td></tr></table></figure></li>
+<li><p>重启服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart httpd</span><br><span class="line">systemctl enable httpd</span><br><span class="line">systemctl restart mariadb</span><br><span class="line">systemctl enable mariadb</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>防火墙配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent --add-service&#x3D;http</span><br><span class="line">firewall-cmd --reload</span><br><span class="line">firewall-cmd --permanent --add-service&#x3D;mysql</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置数据库（每行命令结尾一个分号’ ; ‘）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br><span class="line">&#x2F;&#x2F;从这里开始设置root密码（单独的|非管理员密码）</span><br><span class="line">&#x2F;&#x2F;一路Y到底</span><br><span class="line">mysql -u root -p</span><br><span class="line">&#x2F;&#x2F;输入密码</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create database studentinfo default character set utf8 collate utf8_general_ci;</span><br><span class="line">use studentinfo;</span><br><span class="line">create table score(SN varchar(7),name varchar(10),chinese float(5,2),maths float(5,2),english float(5,2));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create user teacher@localhost identified BY &#39;000000&#39;;</span><br><span class="line">grant all privileges on studentinfo.*to teacher@localhost;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设计网页</p>
+<ul>
+<li><p>进入 /var/www/html 文件夹下 清空所有文件</p>
+</li>
+<li><p>创建 index.html</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">align</span>=<span class="string">"center"</span>&gt;</span>请录入学生成绩<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">align</span>=<span class="string">"center"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">"in.php"</span>&gt;</span></span><br><span class="line">学号：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"SN"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">姓名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">语文：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"chinese"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">数学：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"maths"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">英语：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"english"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建 in.php</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">$conn&#x3D;mysql_connect(&quot;localhost&quot;,&quot;teacher&quot;,&quot;000000&quot;);</span><br><span class="line">mysql_query(&quot;set names &#39;utf8&#39;&quot;);</span><br><span class="line">mysql_select_db(&quot;studentinfo&quot;,$conn);</span><br><span class="line">$SN&#x3D;$_POST[&quot;SN&quot;];</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$chinese&#x3D;$_POST[&quot;chinese&quot;];</span><br><span class="line">$maths&#x3D;$_POST[&quot;maths&quot;];</span><br><span class="line">$english&#x3D;$_POST[&quot;english&quot;];</span><br><span class="line">mysql_query(&quot;insert into score values(&#39;$SN&#39;,&#39;$name&#39;,$chinese,$maths,$english)&quot;) or die(&#39;执行失败&#39;);</span><br><span class="line">echo &quot;添加成功！&quot;;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;index.html&quot;&gt;&lt;button&gt;继续添加&lt;&#x2F;button&gt;&lt;&#x2F;a&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;show.php&quot;&gt;&lt;button&gt;浏览信息&lt;&#x2F;button&gt;&lt;&#x2F;a&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建 show.php</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	header(<span class="string">"Content-Type:text/html;charset=utf-8"</span>);</span><br><span class="line">	$conn=mysql_connect(<span class="string">"localhost"</span>,<span class="string">"teacher"</span>,<span class="string">"000000"</span>);</span><br><span class="line">        mysql_query(<span class="string">"set names 'utf8'"</span>);</span><br><span class="line">        mysql_select_db(<span class="string">"studentinfo"</span>,$conn);</span><br><span class="line">        $result=mysql_query(<span class="string">"select * from score"</span>,$conn);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;h1&gt;我的学生我做主&lt;/h1&gt;"</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;table border='1' width='90%'&gt;"</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;tr&gt;&lt;td&gt;学号&lt;/td&gt;&lt;td&gt;姓名&lt;/td&gt;&lt;td&gt;语文&lt;/td&gt;&lt;td&gt;数学&lt;/td&gt;&lt;td&gt;英语&lt;/td&gt;&lt;/tr&gt;"</span>;</span><br><span class="line">        <span class="keyword">while</span>($row=mysql_fetch_assoc($result))</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;tr&gt;&lt;td&gt;"</span> . $row[<span class="string">'SN'</span>] . <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> . $row[<span class="string">'name'</span>] . <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> . $row[<span class="string">'chinese'</span>] . <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> . $row[<span class="string">'maths'</span>] . <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> . $row[<span class="string">'english'</span>] . <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;/table&gt;"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试访问</p>
+<ul>
+<li>ifconfig 查看服务器IP地址 （VM虚拟机使用 桥网络模式）</li>
+<li>客户机上访问 服务器IP地址 </li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%8A%A8%E6%80%81%E7%BD%91%E7%AB%99/"># 动态网站</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/06/19/%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91%EF%BC%88VLAN%EF%BC%89%E6%8A%80%E6%9C%AF-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE%E7%AF%87/">虚拟局域网（VLAN）技术-相关配置篇</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
