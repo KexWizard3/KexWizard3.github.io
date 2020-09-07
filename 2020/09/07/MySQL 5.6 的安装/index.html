@@ -12,7 +12,7 @@
 
 
 
-<title>What Happens When You Hit Enter | My Blog</title>
+<title>MySQL 5.6的安装（zip版） | My Blog</title>
 
 
 
@@ -107,11 +107,73 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">What Happens When You Hit Enter</h1>
+            <h1 class="post-title">MySQL 5.6的安装（zip版）</h1>
             
                 <div class="post-meta">
                     
@@ -120,14 +182,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">April 25, 2020&nbsp;&nbsp;23:13:19</a>
+                        Date: <a href="#">September 7, 2020&nbsp;&nbsp;20:37:53</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Computer-Network-Technology/">Computer Network Technology</a>
+                                <a href="/categories/Mysql-5-6/">Mysql 5.6</a>
                             
                         </span>
                     
@@ -136,10 +198,60 @@
         </header>
 
         <div class="post-content">
-            <video id="video" controls="" preload="none" poster="" style="width:700px;">
-      <source id="mp4" src="../../../../视频/1.mp4" type="video/mp4">
-      </video>
-<p>视频来自:Youtube</p>
+            <h1 id="Mysql-5-6-安装步骤（zip版）"><a href="#Mysql-5-6-安装步骤（zip版）" class="headerlink" title="Mysql 5.6 安装步骤（zip版）"></a>Mysql 5.6 安装步骤（zip版）</h1><ul>
+<li>下载安装包（MySQL-5.6.zip）</li>
+</ul>
+<blockquote>
+<p>可根据系统选择 32位|64位 官网 <a href="http://www.mysql.com" target="_blank" rel="noopener">www.mysql.com</a></p>
+</blockquote>
+<ul>
+<li>解压到一个磁盘目录 （如F:)</li>
+</ul>
+<ul>
+<li>为了方便把文件夹命名为（mysql-5.6）</li>
+</ul>
+<ul>
+<li>打开 我的电脑 → 属性 → 高级 → 环境变量</li>
+</ul>
+<ul>
+<li>在 <strong>Path</strong> 内将MySQL文件夹下的 <strong>bin</strong> 文件夹所在的目录路径添加到环境变量值 （f:\mysql-5.6\bin)</li>
+</ul>
+<ul>
+<li>然后在mysql-5.6文件夹下将my-default.ini文件复制一份并重命名为my.ini</li>
+</ul>
+<ul>
+<li>打开my.ini修改配置文件</li>
+</ul>
+<p>修改安装目录|mysql数据库的数据存放目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">basedir &#x3D; f:\mysql-5.6</span><br><span class="line">datadir &#x3D; f:\mysql-5.6\data</span><br><span class="line"></span><br><span class="line">#(不要忘了把前面的井号删除)</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>以管理员身份运行cmd（！！！）</li>
+</ul>
+<ul>
+<li>进入mysql-5.6\bin</li>
+</ul>
+<ul>
+<li>输入 mysqld –initialize-insecure –user=mysql 回车</li>
+</ul>
+<ul>
+<li>输入 mysqld install 回车</li>
+</ul>
+<ul>
+<li>输入 net start mysql 启动mysql服务 （start 启动|stop 停止）</li>
+</ul>
+<ul>
+<li>mysql -u root -p 回车 出现 enter passwore： ，提示输入密码时，由于刚安装所以直接回车</li>
+</ul>
+<ul>
+<li>输入 show databases; 查看默认安装数据库</li>
+</ul>
+<ul>
+<li>安装结束</li>
+</ul>
+
         </div>
 
         
@@ -157,7 +269,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/TCP-IP%E5%8D%8F%E8%AE%AE%E7%B0%87/"># TCP/IP协议簇</a>
+                        <a href="/tags/Mysql-5-6/"># Mysql 5.6</a>
                     
                         
                 </span>
@@ -170,10 +282,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/04/26/JavaScript-%E7%AE%97%E6%B3%95%E5%BE%AA%E7%8E%AF/">JavaScript-算法循环</a>
             
-            
-            <a class="next" rel="next" href="/2020/04/21/Basic%20knowledge%20of%20computer%20network/">Computer Network</a>
+            <a class="next" rel="next" href="/2020/08/14/JavaScript-%E4%B8%BA%E7%BD%91%E9%A1%B5%E6%B7%BB%E5%8A%A0time/">Javascript-为网页添加时间</a>
             
         </section>
 
