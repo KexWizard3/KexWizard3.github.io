@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>生成树协议（Spanning-Tree Protocol) | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">生成树协议（Spanning-Tree Protocol)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 10, 2020&nbsp;&nbsp;21:41:49</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%B7%AF%E7%94%B1%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%8A%80%E6%9C%AF/">路由与交换技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="生成树协议（Spanning-Tree-Protocol"><a href="#生成树协议（Spanning-Tree-Protocol" class="headerlink" title="生成树协议（Spanning-Tree Protocol)"></a>生成树协议（Spanning-Tree Protocol)</h1><h3 id="STP"><a href="#STP" class="headerlink" title="STP"></a>STP</h3><ul>
+<li><p>STP相关术语</p>
+<ul>
+<li><p>根网桥</p>
+</li>
+<li><p>根端口：交换网络中的一些端口，负责转发数据</p>
+</li>
+<li><p>指定端口</p>
+</li>
+<li><p>预备端口：交换网络中的一些端口，处于阻塞状态，不能转发数据。是所有选举中全部落选的端口</p>
+</li>
+<li><p>整个交换网络：指一个二层广播域，内只有一个根网桥</p>
+</li>
+<li><p>每台交换机</p>
+</li>
+<li><p>每个网段（Segment）：以两个或两个以上的网卡为边界的一段物理链路</p>
+</li>
+</ul>
+</li>
+<li><p>STP原理</p>
+<ul>
+<li>作用<ul>
+<li>消除环路：阻塞冗余端口，保证交换网络无环且连通</li>
+<li>链路备份：自动开启因链路故障断开的处于阻塞的冗余端口，以迅速恢复交换网络的连通性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>STP的工作流程</p>
+<ul>
+<li>选举根网桥</li>
+<li>选举根端口（Root Port）<ul>
+<li>选择根路开销（Root Path Cost，RPC）最低的端口</li>
+<li>若有多个端口的RPC相等，选择对端桥ID最低的端口</li>
+<li>若有多个端口的对端ID相等，选择对端端口ID最低的端口</li>
+</ul>
+</li>
+<li>选举指定端口（Designated Port，DP）<ul>
+<li>选择根路径开销最低的端口</li>
+<li>若有多个端口的RPC相等，选择桥ID最低的端口</li>
+<li>若有多个端口的桥ID相等，选择端口ID最低的端口</li>
+</ul>
+</li>
+<li>阻塞剩余端口（Alternate Port）</li>
+</ul>
+</li>
+<li><p>STP端口状态机</p>
+<ul>
+<li>阻塞状态（Discarding）</li>
+<li>侦听状态（Listening）</li>
+<li>学习状态（Learning）</li>
+<li>转发状态（Forwarding）</li>
+<li>未启用（Disabled）</li>
+</ul>
+</li>
+<li><p>STP的配置</p>
+</li>
+</ul>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200910/stp.PNG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;sw1&gt;system-view</span><br><span class="line">[sw1]stp enable</span><br><span class="line">[sw1]stp mode stp</span><br><span class="line">[sw1]stp priority 4096 &#x2F;&#x2F;修改优先级</span><br><span class="line"></span><br><span class="line">&lt;sw2&gt;system-view</span><br><span class="line">[sw2]stp enable</span><br><span class="line">[sw2]stp mode stp</span><br><span class="line">[sw2]stp priority 8192 &#x2F;&#x2F;修改优先级</span><br><span class="line"></span><br><span class="line">&lt;sw3&gt;system-view</span><br><span class="line">[sw2]stp enable</span><br><span class="line">[sw2]stp mode stp</span><br><span class="line"></span><br><span class="line">&lt;sw4&gt;system-view</span><br><span class="line">[sw2]stp enable</span><br><span class="line">[sw2]stp mode stp</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display stp brief 查看STP端口角色</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RSTP"><a href="#RSTP" class="headerlink" title="RSTP"></a>RSTP</h3><ul>
+<li><p>RSTP快速生成树协议</p>
+<blockquote>
+<p>与STP相比</p>
+<ol>
+<li>取消和修改了STP标准中定义的某些端口状态</li>
+<li>定义了几个新的端口角色和一些可以让端口直接由阻塞状态过度到转发状态的情形</li>
+<li>减少了交换机等待根交换机发送的CBPDU的时间</li>
+</ol>
+</blockquote>
+</li>
+<li><p>RSTP端口状态机</p>
+<ul>
+<li>丢弃状态（Discarding）</li>
+<li>学习状态（Learning）</li>
+<li>转发状态（Forwarding）</li>
+</ul>
+</li>
+<li><p>RSTP的配置</p>
+</li>
+</ul>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200910/rstp.PNG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;sw1&gt;stp mode rstp</span><br><span class="line">Info:THis operation may take a few seconds.Please wait for a moment...done.</span><br><span class="line">[sw1]stp root primary</span><br><span class="line"></span><br><span class="line">&lt;sw2&gt;stp mode rstp</span><br><span class="line">Info:THis operation may take a few seconds.Please wait for a moment...done.</span><br><span class="line">[sw2]stp root secondary</span><br><span class="line"></span><br><span class="line">&lt;sw3&gt;stp mode rstp</span><br><span class="line">Info:THis operation may take a few seconds.Please wait for a moment...done.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>边缘端口</li>
+</ul>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200910/%E8%BE%B9%E7%BC%98%E7%AB%AF%E5%8F%A3.PNG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[sw3]interface e0&#x2F;0&#x2F;5</span><br><span class="line">[sw3-ethernet0]stp edged-port enable</span><br><span class="line">[sw3]stp bpdu-protection &#x2F;&#x2F;配置BPDU保护功能</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="MSTP（多生成树协议，Multiple-Spanning-Tree-Protocol，MSTP）"><a href="#MSTP（多生成树协议，Multiple-Spanning-Tree-Protocol，MSTP）" class="headerlink" title="MSTP（多生成树协议，Multiple Spanning-Tree Protocol，MSTP）"></a>MSTP（多生成树协议，Multiple Spanning-Tree Protocol，MSTP）</h3><blockquote>
+<p>让交换机可以以实例（MSTI）为单位进行收敛，为每个MSTI收敛出一个独立的生成树，来达到防止链路带宽被白白闲置的效果。</p>
+</blockquote>
+<ul>
+<li>MSTP配置与验证</li>
+</ul>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200910/MSTP.PNG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">首先将交换机的所有端口设置成trunk接口模式&amp;并允许通过所有VLAN流量</span><br><span class="line"></span><br><span class="line">在三台交换机上分别创建VLAN 10&amp;20</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;MST实例相关配置</span><br><span class="line">[swa]stp region-configuration	</span><br><span class="line">[swa-mst-region]region-name mst-region	&#x2F;&#x2F;指定MST域使用的名称为 mst-region</span><br><span class="line">[swa-mst-region]instance 10 vlan 10</span><br><span class="line">[swa-mst-region]instance 20 vlan 20</span><br><span class="line">[swa-mst-region]active region-configuration  &#x2F;&#x2F;对每个MST域新参数进行立即生效</span><br><span class="line"></span><br><span class="line">[swb]stp region-configuration</span><br><span class="line">[swb-mst-region]region-name mst-region</span><br><span class="line">[swb-mst-region]instance 10 vlan 10</span><br><span class="line">[swb-mst-region]instance 20 vlan 20</span><br><span class="line">[swb-mst-region]active region-configuration</span><br><span class="line"></span><br><span class="line">[swc]stp region-configuration</span><br><span class="line">[swc-mst-region]region-name mst-region</span><br><span class="line">[swc-mst-region]instance 10 vlan 10</span><br><span class="line">[swc-mst-region]instance 20 vlan 20</span><br><span class="line">[swc-mst-region]active region-configuration</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;为每个实例指定根网桥</span><br><span class="line">[swa]stp instance 10 root secondary</span><br><span class="line">[swa]stp instance 20 root primary</span><br><span class="line"></span><br><span class="line">[swc]stp instance 10 root primary</span><br><span class="line">[swc]stp instance 20 root secondary</span><br></pre></td></tr></table></figure>
+<p>//在swa上查看MSTP区域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[swa]stp region-configuration</span><br><span class="line">[swa-mst-region]check region-configuration</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP/"># 生成树协议STP</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/09/07/MySQL%205.6%20%E7%9A%84%E5%AE%89%E8%A3%85/">MySQL 5.6的安装（zip版）</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
