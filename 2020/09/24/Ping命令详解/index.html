@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>Ping命令详解 | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Ping命令详解</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 24, 2020&nbsp;&nbsp;15:16:26</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/">网络技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="相关知识点："><a href="#相关知识点：" class="headerlink" title="相关知识点："></a>相关知识点：</h4><ol>
+<li><p>BIOS（Basic Input Output System）“基本输入输出系统”</p>
+<p>计算机运行时，首先会进入BIOS，他在计算机系统起着非常重要的作用。一块主板性能优越是否，很大程度上取决于主板上的BIOS管理功能是否先进。</p>
+</li>
+<li><p>ICMP（Internet Control Message Protocol）“因特网控制消息协议”</p>
+<p>它是TCP/IP协议族的一个子协议，用于在IP主机、路由器之间传递控制消息。</p>
+</li>
+<li><p>Ping（Packet Internet Groper）</p>
+<p>因特网包探索器，用于测试网络连接量的程序。Ping发送一个ICMP；回声请求消息给目的并报告是否收到所希望的ICMP echo（ICMP回升应答）。它是用来检查网络是否通畅或者网络连接素的的命令。</p>
+</li>
+</ol>
+<blockquote>
+<p>Ping命令通常作为网络可用性的检查。Ping命令可以对一个网络地址发送测试数据包，看该网络地址是否响应并统计响应时间，以此测试网络。</p>
+</blockquote>
+<blockquote>
+<p>Ping和ICMP的关系：Ping命令发送数据使用的使ICMP协议。</p>
+</blockquote>
+<ol start="4">
+<li><p>Ping的原理</p>
+<p>向指定的网络地址发送一定长度的数据包，按照约定，若指定网络地址存在的话，会返回同样大小的数据包，若在特定时间内没有返回，就是”超时“，会被认为指定网络地址不存在。</p>
+</li>
+</ol>
+<blockquote>
+<p>ICMP协议通过IP协议发送的，IP协议是一种无连接的，不可靠的数据包协议，在Unix/LINUX，序号从0开始计数，依次递增。而在Windows ping程序的ICMP序列号是没有规律的。</p>
+</blockquote>
+<blockquote>
+<p>ICMP协议在实际传输中数据包：20字节IP首部+8字节ICMP首部+1472字节&lt;数据大小&gt;38字节。</p>
+<p>ICMP报文格式：IP首部（20字节）+8位类型+8位代码+16校验和+（不同类型和代码，格式也有所不同）</p>
+</blockquote>
+<ol start="5">
+<li><p>TCP/IP协议（Transmission Control Protocol/Internet Protocol）”传输控制协议网际协议“</p>
+<p>也叫做网络通讯协议，是指能够在多个不同网络间实现信息传输的协议簇。它是在网络的使用中的最基本的通讯协议。</p>
+<p>TCP/IP传输协议对互联网中各部分进行通信的标准和方法进行了规定。并且，TCP/IP传输协议是保证网络数据信息及时、完整传输的两个重要的协议。TCP/IP传输协议是严格来说是一个四层的体系结构，应用层、传输层、网络层、和数据链路层都包含其中。</p>
+<p>TCP/IP协议不仅仅是指的是TCP和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇，只是因为在TCP/IP协议中TCP协议和IP协议最具有代表性，所以被称为TCP/IP协议。</p>
+</li>
+<li><p>DOS命令（Disk Operating System）</p>
+<p>即磁盘操作系统，主要包括目录操作类命令、磁盘操作类命令、文件操作命令和其他命令。</p>
+</li>
+</ol>
+<h4 id="下文总结"><a href="#下文总结" class="headerlink" title="下文总结"></a>下文总结</h4><ol>
+<li>输入ping /？，列出ping相关的参数</li>
+<li>使用Ping这命令来测试网络连通<ul>
+<li>使用 ipconfig /all 观察本地网络设置是否正确；</li>
+<li>ping 127.0.0.1 回送地址，是为了检查本地的TCP/IP协议有没有设置好；</li>
+<li>Ping 本机IP地址，是为了检查本机的IP地址是否设置有误；</li>
+<li>Ping本网网关或者本网IP地址，为了检查硬件设备是否有问题，也可以检查本机与本地网络连接是否正常；</li>
+</ul>
+</li>
+<li>ping 的返回数据<ul>
+<li>”字节=32“表示ICMP报文中有32个字节的测试数据；</li>
+<li>”时间=6ms“是往返时间。</li>
+<li>”已发送=4“发送多少秒包、”已接收=4“收到多少个数据包、”丢包=0“丢弃了多少个；</li>
+<li>TTL（time to live）生存时间，简单来说，TTL是IP协议包中的一个值，他是告诉网络路由器包在网络中的时间是否太长而应被丢弃。有很多原因使包在一定时间内不能被传递到目的地。</li>
+<li>TTL作用是限制IP数据包在计算机网络中的生存时间。TTL的最大值是255，TTL的推荐值是64.</li>
+</ul>
+</li>
+</ol>
+<h4 id="Ping的参数"><a href="#Ping的参数" class="headerlink" title="Ping的参数"></a>Ping的参数</h4><ol>
+<li>通过打开命令行</li>
+<li>输入ping /？，列出相关参数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">用法: ping [-t] [-a] [-n count] [-l size] [-f] [-i TTL] [-v TOS]</span><br><span class="line">            [-r count] [-s count] [[-j host-list] | [-k host-list]]</span><br><span class="line">            [-w timeout] [-R] [-S srcaddr] [-c compartment] [-p]</span><br><span class="line">            [-4] [-6] target_name</span><br><span class="line"></span><br><span class="line">选项:</span><br><span class="line">    -t             Ping 指定的主机，直到停止。</span><br><span class="line">                   若要查看统计信息并继续操作，请键入 Ctrl+Break；</span><br><span class="line">                   若要停止，请键入 Ctrl+C。</span><br><span class="line">    -a             将地址解析为主机名。</span><br><span class="line">    -n count       要发送的回显请求数。</span><br><span class="line">    -l size        发送缓冲区大小。</span><br><span class="line">    -f             在数据包中设置“不分段”标记(仅适用于 IPv4)。</span><br><span class="line">    -i TTL         生存时间。</span><br><span class="line">    -v TOS         服务类型(仅适用于 IPv4。该设置已被弃用，</span><br><span class="line">                   对 IP 标头中的服务类型字段没有任何</span><br><span class="line">                   影响)。</span><br><span class="line">    -r count       记录计数跃点的路由(仅适用于 IPv4)。</span><br><span class="line">    -s count       计数跃点的时间戳(仅适用于 IPv4)。</span><br><span class="line">    -j host-list   与主机列表一起使用的松散源路由(仅适用于 IPv4)。</span><br><span class="line">    -k host-list    与主机列表一起使用的严格源路由(仅适用于 IPv4)。</span><br><span class="line">    -w timeout     等待每次回复的超时时间(毫秒)。</span><br><span class="line">    -R             同样使用路由标头测试反向路由(仅适用于 IPv6)。</span><br><span class="line">                   根据 RFC 5095，已弃用此路由标头。</span><br><span class="line">                   如果使用此标头，某些系统可能丢弃</span><br><span class="line">                   回显请求。</span><br><span class="line">    -S srcaddr     要使用的源地址。</span><br><span class="line">    -c compartment 路由隔离舱标识符。</span><br><span class="line">    -p             Ping Hyper-V 网络虚拟化提供程序地址。</span><br><span class="line">    -4             强制使用 IPv4。</span><br><span class="line">    -6             强制使用 IPv6。</span><br></pre></td></tr></table></figure>
+
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/"># 计算机网络技术基本知识</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/09/24/KaLi%20Linux%E5%AE%89%E8%A3%85%E5%90%8E%E7%9A%84%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">KaLi Linux安装后的简单配置</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/20/%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1/">静态路由</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
