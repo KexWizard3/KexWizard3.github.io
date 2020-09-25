@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>VLAN间路由 | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">VLAN间路由</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 25, 2020&nbsp;&nbsp;17:23:51</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/HUAWEI-%E8%B7%AF%E7%94%B1%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%8A%80%E6%9C%AF/">HUAWEI-路由与交换技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li>VLAN间路由配置</li>
+<li>单臂路由</li>
+<li>三层交换技术</li>
+<li>VLAN间路由排错</li>
+</ul>
+<h4 id="一、VLAN间路由"><a href="#一、VLAN间路由" class="headerlink" title="一、VLAN间路由"></a>一、VLAN间路由</h4><blockquote>
+<p>三层拓扑也称为逻辑拓扑，而展示网络基础设施之间物理连接方式的拓扑，则称为物理拓扑</p>
+</blockquote>
+<p>1）传统VLAN间路由的配置</p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200925/%E6%8B%93%E6%89%91%E5%9B%BE.PNG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[AR1]inter g0&#x2F;0&#x2F;0</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0]ip ad	</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0]ip address 10.0.10.254 24</span><br><span class="line"></span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0]inter g0&#x2F;0&#x2F;2</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;2]ip address 10.0.20.254 24</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 display ip routing-table 则可以看到路由器自动添加的直连路由</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[SW1]vlan batch 10 20</span><br><span class="line"></span><br><span class="line">[SW1]inter g0&#x2F;0&#x2F;1</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1]port link-type access </span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1]port default vlan 10	</span><br><span class="line"></span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1]inter g0&#x2F;0&#x2F;2</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;2]port link-type access </span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;2]port default vlan 20</span><br><span class="line"></span><br><span class="line">[SW1]interface e0&#x2F;0&#x2F;1</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1]port link-type access 	</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1]port default vlan 10</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;1]inter e0&#x2F;0&#x2F;2</span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2]port link-type access </span><br><span class="line">[SW1-Ethernet0&#x2F;0&#x2F;2]port default vlan 20</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、单臂路由"><a href="#二、单臂路由" class="headerlink" title="二、单臂路由"></a>二、单臂路由</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[AR1]interface g0&#x2F;0&#x2F;0.10</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.10]dot1q termination vid 10</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.10]ip address 10.0.10.254 24</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.10]arp broadcast enable</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.10]quit</span><br><span class="line"></span><br><span class="line">[AR1]interface g0&#x2F;0&#x2F;0.20</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.20]dot1q termination vid 20</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.20]ip address 10.0.20.254 24</span><br><span class="line">[AR1-GigabitEthernet0&#x2F;0&#x2F;0.20]arp broadcast enable</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>dot1q termination vid 配置802.1Q封装并且指定了端口的PVID 为了确保路由器子接口能够与对端的交换机端口封装模式一致</p>
+<p>arp broadcast enable 启用子接口的arp广播功能</p>
+</blockquote>
+<h4 id="三、三层交换"><a href="#三、三层交换" class="headerlink" title="三、三层交换"></a>三、三层交换</h4><blockquote>
+<p>三层交换机集成了三层数据包转发功能</p>
+</blockquote>
+<p>1）三层交换的配置</p>
+<p><img src="../../../../%E5%9B%BE%E7%89%87/20200925/%E6%8B%93%E6%89%91%E5%9B%BE2.PNG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[SW1]vlan batch 10 20</span><br><span class="line"></span><br><span class="line">[SW1]interface Vlanif 10</span><br><span class="line">[SW1-Vlanif10]ip address 10.0.10.254 24</span><br><span class="line">[SW1-Vlanif10]quit	</span><br><span class="line">[SW1]interface Vlanif 20	</span><br><span class="line">[SW1-Vlanif20]ip address 10.0.20.254 24</span><br><span class="line">[SW1-Vlanif20]quit</span><br><span class="line"></span><br><span class="line">[SW1]inter g0&#x2F;0&#x2F;1	</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1]port link-type access </span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1]port default vlan 10</span><br><span class="line">	</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;1]inter g0&#x2F;0&#x2F;2</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;2]port link-type access 	</span><br><span class="line">[SW1-GigabitEthernet0&#x2F;0&#x2F;2]port default vlan 20</span><br></pre></td></tr></table></figure>
+
+<h4 id="四、VLAN间路由排错"><a href="#四、VLAN间路由排错" class="headerlink" title="四、VLAN间路由排错"></a>四、VLAN间路由排错</h4><ul>
+<li>收集故障信息。故障信息的来源可能来自网管监控系统的自动报警，也可能是终端用户的投诉。</li>
+<li>定位故障点。管理员需要根据步骤1中收集到的信息，判断出故障所影响的范围，并最终定位到引发事故的中心点设备。</li>
+<li>提出解决方案后进行测试。</li>
+<li>实施变更并进行测试。管理员按照步骤3提出的解决方案，按照步骤实施变更，在变更结束后争对之前的故障现象进行测试，确保故障已经得到解决。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%B7%AF%E7%94%B1/"># 路由</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/09/24/Kali%E5%85%A5%E4%BE%B5windows/">KaLi Linux通过后门入侵Windows</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
