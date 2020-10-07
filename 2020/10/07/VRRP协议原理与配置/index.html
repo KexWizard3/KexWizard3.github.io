@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>VRRP协议原理与配置 | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">VRRP协议原理与配置</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 7, 2020&nbsp;&nbsp;9:43:36</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/HUAWEI-%E8%B7%AF%E7%94%B1%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%8A%80%E6%9C%AF/">HUAWEI-路由与交换技术</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="一、原理："><a href="#一、原理：" class="headerlink" title="一、原理："></a>一、原理：</h4><p>​        通过把几台路由器设备联合组成一台虚拟路由设备，将虚拟路由器设备的IP地址作为用户的默认网关地址实现与外部通信。当网关发生故障时，VRRP协议能够快速选举新的网关设备承担数据流量，保障网络的可靠通信。VRRP使用IP报文作为传输协议报文，协议号为112，使用固定的组播地址224.0.0.18进行发送，通过协议报文选举出一台路由器作为master，其他设备作为backup，来实现网关备份功能，VRRP只使用到advertisement这一种报文。</p>
+<h6 id="master路由器的选举："><a href="#master路由器的选举：" class="headerlink" title="master路由器的选举："></a>master路由器的选举：</h6><p>​        首先比较每台路由器的优先级，优先级大的成为master，优先级相同的话，就比较接口ip地址，IP地址大的成为master，master会周期发送advertisement报文，一秒发送一次，如果backup每隔3秒没收到master发来的advertisement报文，则认为master down，就会进行新一轮的选举。</p>
+<p><img src="https://img-blog.csdn.net/20180318235412738" alt="img"></p>
+<p>在AR1上配置命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface GigabitEthernet0&#x2F;0&#x2F;0         进入接口</span><br><span class="line">ip address 192.168.1.252 255.255.255.0     配置ip地址</span><br><span class="line">vrrp vrid 1 virtual-ip 192.168.1.254      设置vrrp的vrid和virtual-ip（为pc机的网关地址）</span><br></pre></td></tr></table></figure>
+<p>在AR2上的配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">interface GigabitEthernet0&#x2F;0&#x2F;0         进入接口</span><br><span class="line">ip address 192.168.1.251 255.255.255.0     配置ip地址</span><br><span class="line">vrrp vrid 1 virtual-ip 192.168.1.254      设置vrrp的vrid和virtual-ip（为pc机的网关地址）</span><br><span class="line">vrrp vrid 1 priority 200            设置接口参与vrid为1时进行master选举时的优先级（默认是100）</span><br></pre></td></tr></table></figure>
+<p>上面的配置是单个组id进行vrrp配置，也就是一个接口只配置了一个vrid，当网络主机数很多时，会导致master承担的流量过多，而backup却限制在一旁，导致链路利用率低，为了提高链路利用率，也实现链路的负载分担，vrrp提出一个接口可以配置多个vrid的概念，让一个接口可以在不同的vrid里通过改变优先级来扮演不同的角色，从而实现负载分担。<br>配置命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">interface GigabitEthernet0&#x2F;0&#x2F;0         进入接口</span><br><span class="line">ip address 192.168.1.252 255.255.255.0     配置ip地址</span><br><span class="line">vrrp vrid 1 virtual-ip 192.168.1.254      设置vrrp的vrid和virtual-ip（为pc机的网关地址）</span><br><span class="line">vrrp vrid 1 priority 10             设置接口参与vrid为1时进行master选举的优先级（默认是100）     </span><br><span class="line">vrrp vrid 2 virtual-ip 192.168.1.250      设置vrrp的vrid和virtual-ip（为pc机的网关地址）</span><br><span class="line">vrrp vrid 2 priority 200            设置接口参与vrid为2时进行master选举的优先级（默认是100）</span><br></pre></td></tr></table></figure>
+<p>配置完成后通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display vrrp brief</span><br></pre></td></tr></table></figure>
+<p>可以看到接口在不同的vrid中扮演着不同的角色。</p>
+<p>有时，网络中会产生这样的情况：AR1到达3.3.3.3 网段的g0/0/1接口突然shutdown，那么，AR1此时还是master，还是会往下游接口g0/0/0发出advertisement<br>报文，宣告自己是master，那么网络中的流量还是会通过AR1的转发出去，这样就会造成网络不可达以及数据丢包，为了改变这种情况，我们可以通过追踪上游<br>接口来进行检测，一旦发现master上游接口路由不可达到的时立即降低端口参与master选举的优先级从而达到进行新一轮master选举的目的。</p>
+<p>配置命令如下：</p>
+<pre><code>vrrp vrid 1 track interface g0/0/1 reduced 150</code></pre>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/VRRP%E5%8D%8F%E8%AE%AE/"># VRRP协议</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/10/07/BFD%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/">BFD（（Bidirection ForwardingDetection）协议原理与配置</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

