@@ -12,7 +12,7 @@
 
 
 
-<title>广域网下相关协议 | My Blog</title>
+<title>广域网下相关协议（HDLC/PPP/PPPoE) | My Blog</title>
 
 
 
@@ -173,7 +173,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">广域网下相关协议</h1>
+            <h1 class="post-title">广域网下相关协议（HDLC/PPP/PPPoE)</h1>
             
                 <div class="post-meta">
                     
@@ -199,7 +199,7 @@
 
         <div class="post-content">
             <h4 id="一、HDLC"><a href="#一、HDLC" class="headerlink" title="一、HDLC"></a>一、HDLC</h4><p>全称高级数据链路控制(High-Level Data Link Control),标准的HDLC不仅用于点到点的连接，还可以用于点到多点的连接环境。</p>
-<h4 id="二、HDLC的配置"><a href="#二、HDLC的配置" class="headerlink" title="二、HDLC的配置"></a>二、HDLC的配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface serial 1&#x2F;0&#x2F;0</span><br></pre></td></tr></table></figure>
+<h5 id="1）HDLC的配置"><a href="#1）HDLC的配置" class="headerlink" title="1）HDLC的配置"></a>1）HDLC的配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface serial 1&#x2F;0&#x2F;0</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link-protocol hdlc</span><br></pre></td></tr></table></figure>
 
 <p>查看端口状态：</p>
@@ -210,8 +210,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timer hold 50</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dis interface serial 0&#x2F;0&#x2F;0</span><br></pre></td></tr></table></figure>
 
-<h4 id="三、PPP"><a href="#三、PPP" class="headerlink" title="三、PPP"></a>三、PPP</h4><p>全称是串行线路互联网协议(Serial Line Internet Protocol)。其就是对IP数据包进行封装，让IP数据包能够通过串行线路和调制解调器线路进行传输。</p>
-<h4 id="四、PaP认证"><a href="#四、PaP认证" class="headerlink" title="四、PaP认证"></a>四、PaP认证</h4><p>认证方路由器：</p>
+<h4 id="二、PPP"><a href="#二、PPP" class="headerlink" title="二、PPP"></a>二、PPP</h4><p>全称是串行线路互联网协议(Serial Line Internet Protocol)。其就是对IP数据包进行封装，让IP数据包能够通过串行线路和调制解调器线路进行传输。</p>
+<h5 id="1）PaP认证"><a href="#1）PaP认证" class="headerlink" title="1）PaP认证"></a>1）PaP认证</h5><p>认证方路由器：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aaa</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local-user &#123;name&#125; password cipher &#123;text&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local-user &#123;name&#125; service-type ppp</span><br></pre></td></tr></table></figure>
@@ -221,6 +221,112 @@
 <p>被认证方：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface serial 0&#x2F;0&#x2F;1</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ppp pap local-user &#123;name&#125; password cipher &#123;text&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三、PPPoE"><a href="#三、PPPoE" class="headerlink" title="三、PPPoE"></a>三、PPPoE</h4><p>全称PPPoE（PPP over Ethernet）</p>
+<h5 id="1）、PPPoE的配置"><a href="#1）、PPPoE的配置" class="headerlink" title="1）、PPPoE的配置"></a>1）、PPPoE的配置</h5><p>服务端的配置命令解释：</p>
+<table>
+<thead>
+<tr>
+<th>配置命令</th>
+<th>配置命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ip pool [ip-pool-name]</td>
+<td>使用系统视图命令创建IP地址池，并进入地址池视图</td>
+</tr>
+<tr>
+<td>network [ip-addredd]{mask/make-length}</td>
+<td>使用地址池视图命令指定地址池中的IP地址范围，一个地址池中只能配置一个IP地址段</td>
+</tr>
+<tr>
+<td>gateway-list ip-addredd</td>
+<td>使用地址池视图命令指定地址池的网关地址</td>
+</tr>
+<tr>
+<td>inter virtual-template [vt-number]</td>
+<td>使用系统视图命令创建虚拟接口，并进入虚拟接口模版视图。编号范围[0-1024]</td>
+</tr>
+<tr>
+<td>ip addredd [ip-address]{mask/mask-length</td>
+<td>使用虚拟接口模版视图命令为虚拟接口模版配置IP地址</td>
+</tr>
+<tr>
+<td>remote address pool [pool-name]</td>
+<td>使用虚拟接口模版视图命令为PPPoE客户端分配IP地址</td>
+</tr>
+<tr>
+<td>interface [interface-type interface-number]</td>
+<td>使用系统视图命令进入接口视图</td>
+</tr>
+<tr>
+<td>pppop-server bind virtual-template [vt-number]</td>
+<td>使用接口视图命令把虚拟接口模版绑定在ar2路由器上，同时启用PPPoE服务器功能</td>
+</tr>
+</tbody></table>
+<p>客户端的配置命令解释：</p>
+<table>
+<thead>
+<tr>
+<th>配置命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>interface dialer [number]</td>
+<td>使用系统视图命令创建虚拟拨号接口，并进入虚拟拨号接口视图</td>
+</tr>
+<tr>
+<td>dialer user [user-name]</td>
+<td>使用虚拟拨号接口视图命令指定拨号用户的用户名</td>
+</tr>
+<tr>
+<td>dialer bundle [number]</td>
+<td>使用虚拟拨号接口视图指定拨号绑定关系编号</td>
+</tr>
+<tr>
+<td>ip address ppp-negotiate</td>
+<td>使用虚拟拨号接口视图命令指定从AR2那里学习IP地址0</td>
+</tr>
+<tr>
+<td>interface interface-type [interface-number]</td>
+<td>使用系统视图命令进入接口视图</td>
+</tr>
+<tr>
+<td>pppoe-client dial-bundle-number [number]</td>
+<td>使用接口视图命令启用pppoe客户端功能，并调用拨号绑定关系</td>
+</tr>
+</tbody></table>
+<p>拓扑图：</p>
+<img src="../../../../图片/20201115/拓扑图1.jpg" />
+
+<p>AR2的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip pool name</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Info:It’s successful to create an IP address pool.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network 202.108.0.0 mask 255.255.255.252</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gateway-list 202.108.0.2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inter virtual-template 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip address 202.108.0.2 255.255.255.252</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote address pool name</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface g0&#x2F;0&#x2F;0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pppop-server bind virtual-template 10</span><br></pre></td></tr></table></figure>
+<p>AR1的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface dialer 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialer user AR1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialer bundle 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip address ppp-negotiate</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interface g0&#x2F;0&#x2F;0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pppop-client dial-bundle-number 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quit</span><br></pre></td></tr></table></figure>
+<p>AR1上查看已经获得的ip地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display ip interface brief dialer 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display pppop-client session summary</span><br></pre></td></tr></table></figure>
+<p>AR2上查看PPPoE会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display pppop-server session all</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -254,7 +360,7 @@
                 <a class="prev" rel="prev" href="/2020/11/09/%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/">搭建私人云盘</a>
             
             
-            <a class="next" rel="next" href="/2020/10/30/%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2/">网络地址转换</a>
+            <a class="next" rel="next" href="/2020/10/30/%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2(NAT)/">网络地址转换（NAT）</a>
             
         </section>
 
